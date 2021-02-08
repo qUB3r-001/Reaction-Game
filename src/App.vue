@@ -1,18 +1,18 @@
 <template>
   <div id="app">
     <h1>REACTION TEST</h1>
-    <Target />
-    <!-- <Reflex /> -->
+    <!-- <Target /> -->
+    <Reflex />
   </div>
 </template>
 
 <script>
-  import Target from "./components/Target";
-  //import Reflex from "./components/Reflex";
+  // import Target from "./components/Target";
+  import Reflex from "./components/Reflex";
 
   export default {
     name: "App",
-    components: { Target },
+    components: { Reflex },
   };
 </script>
 

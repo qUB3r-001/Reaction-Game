@@ -40,6 +40,7 @@
         document.getElementById("target").style.setProperty("margin-top", 0);
         document.getElementById("target").style.setProperty("margin-left", 0);
         this.missed = false;
+        this.disable = true;
       },
       missClick(e) {
         if (e.target.id === "board") {
