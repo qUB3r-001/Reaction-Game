@@ -1,11 +1,21 @@
 <template>
   <div>
+    <h3>Targets hit : {{ count }}</h3>
     <div class="box" id="board" v-on:click="missClick">
-      <h3>Targets hit : {{ count }}</h3>
-      <div id="target" v-on:click="handleClick"></div>
-      <button v-bind:disabled="disable" v-on:click="reset">Restart</button>
-      <h1 v-show="missed">GAME OVER</h1>
+      <div id="target" v-on:click="handleClick">
+        <img src="./bullseye.png" style="height:100px;width:100px" />
+      </div>
+
+      <h1 v-show="missed" id="game-over">GAME OVER</h1>
     </div>
+    <q-btn
+      push
+      size="large"
+      style="background: #ff414d; color: white"
+      v-bind:disabled="disable"
+      v-on:click="reset"
+      label="Restart"
+    />
   </div>
 </template>
 
@@ -55,19 +65,31 @@
 <style scoped>
   .box {
     width: 100%;
-    height: 600px;
+    height: 68vh;
+    border: 1px solid black;
+    margin-bottom: 20px;
   }
 
   #target {
     height: 100px;
     width: 100px;
     border-radius: 50px;
-    background-color: red;
     position: absolute;
   }
 
+  #target:hover {
+    box-shadow: 3px 3px rgb(124, 124, 124);
+  }
+
+  #game-over {
+    font-size: 4em;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
   h3 {
-    font-family: "Ubuntu", sans-serif;
-    padding: 0.3em;
+    font-size: 1.5em;
   }
 </style>
