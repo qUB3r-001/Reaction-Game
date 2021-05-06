@@ -6,16 +6,27 @@
         <img src="./bullseye.png" style="height:100px;width:100px" />
       </div>
 
+      <h1 v-show="disable" class="timer">{{ timer }}</h1>
       <h1 v-show="missed" id="game-over">GAME OVER</h1>
     </div>
-    <q-btn
-      push
-      size="large"
-      style="background: #ff414d; color: white"
-      v-bind:disabled="disable"
-      v-on:click="reset"
-      label="Restart"
-    />
+    <div class="q-gutter-xl">
+      <q-btn
+        push
+        size="large"
+        color="secondary"
+        v-bind:disabled="!disable"
+        v-on:click="countdown"
+        label="Start"
+      />
+      <q-btn
+        push
+        size="large"
+        style="background: #ff414d; color: white"
+        v-bind:disabled="disable"
+        v-on:click="reset"
+        label="Reset"
+      />
+    </div>
   </div>
 </template>
 
@@ -29,11 +40,12 @@
         count: 0,
         disable: true,
         missed: false,
+        timer: 5,
       };
     },
     methods: {
       handleClick() {
-        if (!this.missed) {
+        if (!this.missed && this.timer != 0) {
           this.xPos = Math.floor(Math.random() * 1000);
           this.yPos = Math.floor(Math.random() * 400);
           document
@@ -51,12 +63,20 @@
         document.getElementById("target").style.setProperty("margin-left", 0);
         this.missed = false;
         this.disable = true;
+        this.timer = 5;
       },
       missClick(e) {
         if (e.target.id === "board") {
           this.disable = false;
           this.missed = true;
         }
+      },
+      countdown() {
+        const timerInterval = setInterval(() => {
+          this.timer--;
+
+          if (this.timer == 0) clearInterval(timerInterval);
+        }, 1000);
       },
     },
   };
@@ -68,6 +88,8 @@
     height: 68vh;
     border: 1px solid black;
     margin-bottom: 20px;
+    display: grid;
+    place-items: center;
   }
 
   #target {
@@ -83,13 +105,13 @@
 
   #game-over {
     font-size: 4em;
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
   }
 
   h3 {
     font-size: 1.5em;
+  }
+
+  .timer {
+    opacity: 0.1;
   }
 </style>

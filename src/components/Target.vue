@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="box row">
+    <div class="row box">
       <div class="col-3 column">
         <div class="col-5">
           <h3>Time</h3>
@@ -23,13 +23,19 @@
         <div class="col-10">
           <div
             class="circle"
+            v-if="disable && !greenColor"
+            v-bind:disabled="greenColor"
+          >
+            Wait...
+          </div>
+          <div
+            class="circle"
             v-on:click="stopTimer"
             v-bind:class="{ green: greenColor }"
             v-bind:style="targetStyle"
           ></div>
         </div>
-        <!-- // v-if="hide" -->
-        <div class="col-2 q-gutter-md">
+        <div>
           <q-btn
             v-on:click="timer"
             v-bind:disabled="disable"
@@ -60,19 +66,24 @@
       };
     },
     methods: {
-      stopTimer() {
-        if (this.disable) {
-          this.hide = false;
-          clearInterval(this.rsTimer);
-          this.reactionTimes.push(this.count);
-          this.averageTime =
-            this.reactionTimes.reduce((a, b) => a + b, 0) /
-            this.reactionTimes.length;
+      stopTimer(e) {
+        console.log(e.target);
+        this.hide = false;
+        clearInterval(this.rsTimer);
+        this.reactionTimes.push(this.count);
+        this.averageTime =
+          this.reactionTimes.reduce((a, b) => a + b, 0) /
+          this.reactionTimes.length;
+
+        if (this.reactionTimes.length < 5) {
+          this.reset();
+          this.timer();
         }
       },
       timer() {
+        console.log(this.reactionTimes.length);
         this.disable = true;
-        let green = Math.ceil(Math.random() * 5000);
+        let green = Math.ceil(Math.random() * 5000 + 10);
         this.grnTimer = setTimeout(() => {
           this.greenColor = true;
           this.rsTimer = setInterval(() => {
@@ -86,9 +97,6 @@
         this.disable = false;
         this.greenColor = false;
         this.radius = Math.floor(Math.random() * 50 + 50);
-        if (this.reactionTimes.length === 5) {
-          this.reactionTimes = [];
-        }
       },
     },
     computed: {
