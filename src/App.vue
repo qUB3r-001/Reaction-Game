@@ -1,17 +1,17 @@
 <template>
-  <div id="app">
+  <div id="app" class="column text-center">
     <h2>Reaction Test</h2>
-    <div class="q-gutter-xl" v-show="enable">
+    <div>
       <q-btn
         color="secondary"
         label="Target"
-        size="large"
+        size="medium"
         v-on:click="targetEnable"
       />
       <q-btn
         style="background: #ff414d; color: white"
         label="Reflex"
-        size="large"
+        size="medium"
         v-on:click="reflexEnable"
       />
     </div>
@@ -35,19 +35,16 @@
       return {
         targetShow: false,
         reflexShow: false,
-        enable: true,
       };
     },
     methods: {
       targetEnable() {
         this.targetShow = true;
         this.reflexShow = false;
-        this.enable = false;
       },
       reflexEnable() {
         this.reflexShow = true;
         this.targetShow = false;
-        this.enable = false;
       },
     },
   };
@@ -56,7 +53,5 @@
 <style scoped>
   h2 {
     font-family: "Advent Pro", sans-serif;
-    font-size: 5em !important;
-    padding: 0.3em;
   }
 </style>

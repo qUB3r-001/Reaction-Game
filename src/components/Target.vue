@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="row justify-center">
     <div class="row box">
-      <div class="col-3 column">
+      <div class="col-6 column">
         <div class="col-5">
           <h3>Time</h3>
           <h2>{{ count }}</h2>
@@ -113,10 +113,9 @@
 
 <style scoped>
   .box {
-    width: 100%;
-    height: 70vh;
+    width: 90vw;
+    height: 80vh;
     border: 1px solid black;
-    margin-bottom: 20px;
   }
 
   .circle {

@@ -1,31 +1,36 @@
 <template>
-  <div>
-    <h3>Targets hit : {{ count }}</h3>
-    <div class="box" id="board" v-on:click="missClick">
-      <div id="target" v-on:click="handleClick">
-        <img src="./bullseye.png" style="height:100px;width:100px" />
+  <div class="row justify-center">
+    <div class="row box">
+      <div class="col-12 self-start">
+        <h3>Targets hit : {{ count }}</h3>
       </div>
 
-      <h1 v-show="disable" class="timer">{{ timer }}</h1>
-      <h1 v-show="missed" id="game-over">GAME OVER</h1>
-    </div>
-    <div class="q-gutter-xl">
-      <q-btn
-        push
-        size="large"
-        color="secondary"
-        v-bind:disabled="!disable"
-        v-on:click="countdown"
-        label="Start"
-      />
-      <q-btn
-        push
-        size="large"
-        style="background: #ff414d; color: white"
-        v-bind:disabled="disable"
-        v-on:click="reset"
-        label="Reset"
-      />
+      <div class="col-12 target-area self-center" v-on:click="missClick">
+        <div id="target" v-on:click="handleClick">
+          <img src="./bullseye.png" style="height:80px;width:80px" />
+        </div>
+        <h1 v-show="disable" class="timer">{{ timer }}</h1>
+        <h1 v-show="missed" id="game-over">GAME OVER</h1>
+      </div>
+
+      <div class="col-12 self-end">
+        <q-btn
+          push
+          size="medium"
+          color="secondary"
+          v-bind:disabled="!disable"
+          v-on:click="countdown"
+          label="Start"
+        />
+        <q-btn
+          push
+          size="medium"
+          style="background: #ff414d; color: white"
+          v-bind:disabled="disable"
+          v-on:click="reset"
+          label="Reset"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -84,19 +89,19 @@
 
 <style scoped>
   .box {
-    width: 100%;
-    height: 68vh;
+    width: 90vw;
+    height: 80vh;
     border: 1px solid black;
-    margin-bottom: 20px;
-    display: grid;
-    place-items: center;
+  }
+
+  .target-area {
+    height: 80% !important;
   }
 
   #target {
-    height: 100px;
-    width: 100px;
-    border-radius: 50px;
-    position: absolute;
+    height: 80px;
+    width: 80px;
+    border-radius: 40px;
   }
 
   #target:hover {
