@@ -1,7 +1,7 @@
 <template>
   <div class="row justify-center">
     <div class="row box">
-      <div class="col-6 column">
+      <div class="col-6 column self-center">
         <div class="col-5">
           <h3>Time</h3>
           <h2>{{ count }}</h2>

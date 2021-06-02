@@ -1,24 +1,29 @@
 <template>
   <div class="row justify-center">
     <div class="row box">
-      <div class="col-12 self-start">
-        <h3>Targets hit : {{ count }}</h3>
+      <div class="col-12">
+        <h5>Targets hit : {{ hits }} Missed Target : {{ miss }}</h5>
       </div>
 
-      <div class="col-12 target-area self-center" v-on:click="missClick">
-        <div id="target" v-on:click="handleClick">
-          <img src="./bullseye.png" style="height:80px;width:80px" />
+      <div class="col-12" id="target-area" v-on:click="targetClick">
+        <div id="target-div">
+          <img
+            src="./bullseye.png"
+            style="height:80px;width:80px"
+            id="target"
+          />
         </div>
-        <h1 v-show="disable" class="timer">{{ timer }}</h1>
-        <h1 v-show="missed" id="game-over">GAME OVER</h1>
+        <div>
+          <h1 class="timer">{{ timer }}</h1>
+          <h1 v-show="over" id="game-over">GAME OVER</h1>
+        </div>
       </div>
 
-      <div class="col-12 self-end">
+      <div class="col-12 self-end button-div">
         <q-btn
           push
           size="medium"
           color="secondary"
-          v-bind:disabled="!disable"
           v-on:click="countdown"
           label="Start"
         />
@@ -26,7 +31,6 @@
           push
           size="medium"
           style="background: #ff414d; color: white"
-          v-bind:disabled="disable"
           v-on:click="reset"
           label="Reset"
         />
@@ -42,46 +46,49 @@
       return {
         xPos: 0,
         yPos: 0,
-        count: 0,
-        disable: true,
-        missed: false,
+        hits: 0,
+        miss: 0,
+        start: false,
+        over: false,
         timer: 5,
       };
     },
     methods: {
-      handleClick() {
-        if (!this.missed && this.timer != 0) {
-          this.xPos = Math.floor(Math.random() * 1000);
-          this.yPos = Math.floor(Math.random() * 400);
+      targetClick(e) {
+        let idClicked = e.target.id;
+        if (this.start && !this.over && idClicked === "target") {
+          this.xPos = Math.floor(Math.random() * 100);
+          this.yPos = Math.floor(Math.random() * 90);
           document
-            .getElementById("target")
-            .style.setProperty("margin-top", this.yPos + "px");
+            .getElementById("target-div")
+            .style.setProperty("top", this.yPos + "%");
           document
-            .getElementById("target")
-            .style.setProperty("margin-left", this.xPos + "px");
-          this.count++;
+            .getElementById("target-div")
+            .style.setProperty("left", this.xPos + "%");
+          this.hits++;
+        } else if (this.start && !this.over && idClicked === "target-area") {
+          this.miss++;
         }
       },
       reset() {
-        this.count = 0;
-        document.getElementById("target").style.setProperty("margin-top", 0);
-        document.getElementById("target").style.setProperty("margin-left", 0);
-        this.missed = false;
-        this.disable = true;
         this.timer = 5;
-      },
-      missClick(e) {
-        if (e.target.id === "board") {
-          this.disable = false;
-          this.missed = true;
-        }
+        this.hits = 0;
+        this.miss = 0;
+        this.start = false;
+        this.over = false;
+        document.getElementById("target-div").style.setProperty("top", 0);
+        document.getElementById("target-div").style.setProperty("left", 0);
       },
       countdown() {
         const timerInterval = setInterval(() => {
           this.timer--;
 
-          if (this.timer == 0) clearInterval(timerInterval);
+          if (this.timer == 0) {
+            clearInterval(timerInterval);
+            this.over = true;
+          }
         }, 1000);
+        this.start = true;
       },
     },
   };
@@ -94,29 +101,41 @@
     border: 1px solid black;
   }
 
-  .target-area {
-    height: 80% !important;
+  h5 {
+    line-height: 4vh;
   }
 
-  #target {
+  #target-area {
+    position: relative;
+    height: 70vh !important;
+  }
+
+  #target-div {
     height: 80px;
     width: 80px;
     border-radius: 40px;
+    position: absolute;
+    transition: 0.1s;
   }
 
-  #target:hover {
-    box-shadow: 3px 3px rgb(124, 124, 124);
+  #target-div:hover {
+    box-shadow: 0px 0px 10px black;
   }
 
   #game-over {
     font-size: 4em;
   }
 
-  h3 {
-    font-size: 1.5em;
+  .button-div {
+    height: 6vh !important;
   }
 
   .timer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
     opacity: 0.1;
   }
 </style>
