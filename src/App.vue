@@ -1,14 +1,18 @@
 <template>
   <div id="app" class="column text-center">
-    <h2>Reaction Test</h2>
-    <div>
+    <div class="row justify-evenly items-center q-pa-md">
       <q-btn
+        push
         color="secondary"
         label="Target"
         size="medium"
         v-on:click="targetEnable"
       />
+
+      <h2>Reaction Test</h2>
+
       <q-btn
+        push
         style="background: #ff414d; color: white"
         label="Reflex"
         size="medium"

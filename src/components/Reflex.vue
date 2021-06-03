@@ -1,10 +1,6 @@
 <template>
   <div class="row justify-center">
     <div class="row box">
-      <div class="col-12">
-        <h5>Targets hit : {{ hits }} Missed Target : {{ miss }}</h5>
-      </div>
-
       <div class="col-12" id="target-area" v-on:click="targetClick">
         <div id="target-div">
           <img
@@ -13,26 +9,31 @@
             id="target"
           />
         </div>
-        <div>
-          <h1 class="timer">{{ timer }}</h1>
-          <h1 v-show="over" id="game-over">GAME OVER</h1>
+        <div class="timer">
+          <h1>{{ timer !== 0 ? timer : "Time Up!" }}</h1>
+          <h4 class="q-pa-xs">Targets hit : {{ hits }}</h4>
+          <h4 class="q-pa-xs">Missed Target : {{ miss }}</h4>
         </div>
       </div>
 
-      <div class="col-12 self-end button-div">
+      <div class="col-12 self-end button-div row items-center justify-center">
         <q-btn
           push
+          round
           size="medium"
           color="secondary"
           v-on:click="countdown"
-          label="Start"
+          icon="play_arrow"
+          class="q-mx-md"
         />
         <q-btn
           push
+          round
           size="medium"
           style="background: #ff414d; color: white"
           v-on:click="reset"
-          label="Reset"
+          icon="replay"
+          class="q-mx-md"
         />
       </div>
     </div>
@@ -44,8 +45,6 @@
     name: "Reflex",
     data() {
       return {
-        xPos: 0,
-        yPos: 0,
         hits: 0,
         miss: 0,
         start: false,
@@ -57,14 +56,14 @@
       targetClick(e) {
         let idClicked = e.target.id;
         if (this.start && !this.over && idClicked === "target") {
-          this.xPos = Math.floor(Math.random() * 100);
-          this.yPos = Math.floor(Math.random() * 90);
+          let xPos = Math.floor(Math.random() * 92);
+          let yPos = Math.floor(Math.random() * 80);
           document
             .getElementById("target-div")
-            .style.setProperty("top", this.yPos + "%");
+            .style.setProperty("top", yPos + "%");
           document
             .getElementById("target-div")
-            .style.setProperty("left", this.xPos + "%");
+            .style.setProperty("left", xPos + "%");
           this.hits++;
         } else if (this.start && !this.over && idClicked === "target-area") {
           this.miss++;
@@ -76,8 +75,8 @@
         this.miss = 0;
         this.start = false;
         this.over = false;
-        document.getElementById("target-div").style.setProperty("top", 0);
-        document.getElementById("target-div").style.setProperty("left", 0);
+        document.getElementById("target-div").style.setProperty("top", "2%");
+        document.getElementById("target-div").style.setProperty("left", "1%");
       },
       countdown() {
         const timerInterval = setInterval(() => {
@@ -96,9 +95,9 @@
 
 <style scoped>
   .box {
+    position: relative;
     width: 90vw;
     height: 80vh;
-    border: 1px solid black;
   }
 
   h5 {
@@ -108,6 +107,9 @@
   #target-area {
     position: relative;
     height: 70vh !important;
+    background-color: #edffec;
+    border: 10px solid black;
+    border-radius: 30px;
   }
 
   #target-div {
@@ -115,6 +117,9 @@
     width: 80px;
     border-radius: 40px;
     position: absolute;
+    top: 2%;
+    left: 1%;
+    z-index: 10;
     transition: 0.1s;
   }
 
@@ -127,7 +132,7 @@
   }
 
   .button-div {
-    height: 6vh !important;
+    height: 10vh !important;
   }
 
   .timer {
@@ -135,7 +140,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: -1;
     opacity: 0.1;
+    z-index: 9;
   }
 </style>
