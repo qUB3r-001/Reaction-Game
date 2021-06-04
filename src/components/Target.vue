@@ -35,8 +35,11 @@
             v-on:click="stopTimer"
             v-bind:class="{ green: greenColor }"
             v-bind:style="targetStyle"
-            v-bind:disabled="over"
+            v-if="!over"
           ></div>
+          <div class="wait-text" v-else>
+            GAME OVER
+          </div>
         </div>
         <div>
           <q-btn
@@ -80,7 +83,7 @@
       stopTimer(e) {
         console.log(e.target);
         clearInterval(this.rsTimer);
-        this.reactionTimes.push(this.count);
+        this.reactionTimes.push(e.target.id === "circle" ? this.count : 0);
         this.averageTime =
           this.reactionTimes.reduce((a, b) => a + b, 0) /
           this.reactionTimes.length;
