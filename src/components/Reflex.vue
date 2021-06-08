@@ -1,41 +1,35 @@
 <template>
-  <div class="row justify-center">
-    <div class="row box">
-      <div class="col-12" id="target-area" v-on:click="targetClick">
-        <div id="target-div">
-          <img
-            src="./bullseye.png"
-            style="height:80px;width:80px"
-            id="target"
-          />
-        </div>
-        <div class="timer">
-          <h1>{{ timer !== 0 ? timer : "Time Up!" }}</h1>
-          <h4 class="q-pa-xs">Targets hit : {{ hits }}</h4>
-          <h4 class="q-pa-xs">Missed Target : {{ miss }}</h4>
-        </div>
+  <div class="row justify-center box">
+    <div class="col-12" id="target-area" v-on:click="targetClick">
+      <div id="target-div">
+        <img src="./bullseye.png" style="height:80px;width:80px" id="target" />
       </div>
+      <div class="timer">
+        <h1>{{ timer !== 0 ? timer : "Time Up!" }}</h1>
+        <h4 class="q-pa-xs">Targets hit : {{ hits }}</h4>
+        <h4 class="q-pa-xs">Missed Target : {{ miss }}</h4>
+      </div>
+    </div>
 
-      <div class="col-12 self-end button-div row items-center justify-center">
-        <q-btn
-          push
-          round
-          size="medium"
-          color="secondary"
-          v-on:click="countdown"
-          icon="play_arrow"
-          class="q-mx-md"
-        />
-        <q-btn
-          push
-          round
-          size="medium"
-          style="background: #ff414d; color: white"
-          v-on:click="reset"
-          icon="replay"
-          class="q-mx-md"
-        />
-      </div>
+    <div class="col-12 self-end button-div row items-center justify-center">
+      <q-btn
+        push
+        round
+        size="medium"
+        color="secondary"
+        v-on:click="countdown"
+        icon="play_arrow"
+        class="q-mx-md"
+      />
+      <q-btn
+        push
+        round
+        size="medium"
+        style="background: #ff414d; color: white"
+        v-on:click="reset"
+        icon="replay"
+        class="q-mx-md"
+      />
     </div>
   </div>
 </template>
@@ -95,9 +89,8 @@
 
 <style scoped>
   .box {
-    position: relative;
-    width: 90vw;
-    height: 80vh;
+    width: 100%;
+    height: 100%;
   }
 
   h5 {
@@ -106,10 +99,8 @@
 
   #target-area {
     position: relative;
-    height: 70vh !important;
-    background-color: #edffec;
-    border: 10px solid black;
-    border-radius: 30px;
+    height: 80%;
+    border-radius: 10px;
   }
 
   #target-div {

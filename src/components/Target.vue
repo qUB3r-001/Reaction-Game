@@ -134,9 +134,8 @@
 
 <style scoped>
   .box {
-    width: 90vw;
-    height: 80vh;
-    border: 1px solid black;
+    width: 100%;
+    height: 100%;
   }
 
   .wait-text {
