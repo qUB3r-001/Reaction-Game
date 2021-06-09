@@ -4,13 +4,13 @@
       <div id="target-div">
         <img src="./bullseye.png" style="height:80px;width:80px" id="target" />
       </div>
-      <div class="timer">
+      <div class="timer text-center">
         <h1>{{ timer !== 0 ? timer : "Time Up!" }}</h1>
         <h4 class="q-pa-xs">Targets hit : {{ hits }}</h4>
         <h4 class="q-pa-xs">Missed Target : {{ miss }}</h4>
       </div>
     </div>
-
+    <!-- 
     <div class="col-12 self-end button-div row items-center justify-center">
       <q-btn
         push
@@ -30,7 +30,7 @@
         icon="replay"
         class="q-mx-md"
       />
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -99,7 +99,7 @@
 
   #target-area {
     position: relative;
-    height: 80%;
+    height: 100%;
     border-radius: 10px;
   }
 

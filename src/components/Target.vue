@@ -1,48 +1,43 @@
 <template>
-  <div class="row justify-center">
-    <div class="row box">
-      <div class="col-6 column self-center">
-        <div class="col-5">
-          <h3>Time</h3>
-          <h2>{{ count }}</h2>
-        </div>
+  <div class="row box">
+    <div class="col-6 column self-center">
+      <div class="col-5 text-center">
+        <h3>Time</h3>
+        <h2>{{ count }}</h2>
+      </div>
+      <h3 class="col-7 text-center">
+        Average Time : {{ reactionTimes.length === 5 ? averageTime : "--" }}
+        <ul>
+          <li v-for="(time, id) in reactionTimes" v-bind:key="id" class="times">
+            {{ id + 1 }}. {{ time }}
+          </li>
+        </ul>
+      </h3>
+    </div>
 
-        <h3 class="col-7">
-          Average Time : {{ reactionTimes.length === 5 ? averageTime : "--" }}
-          <ul>
-            <li
-              v-for="(time, id) in reactionTimes"
-              v-bind:key="id"
-              class="times"
-            >
-              {{ id + 1 }}. {{ time }}
-            </li>
-          </ul>
-        </h3>
+    <div class="col-6 column">
+      <div class="col-10">
+        <div
+          class="wait-text"
+          v-if="disable && !greenColor"
+          v-bind:disabled="greenColor"
+        >
+          Wait...
+        </div>
+        <div
+          id="circle"
+          v-on:click="stopTimer"
+          v-bind:class="{ green: greenColor }"
+          v-bind:style="targetStyle"
+          v-if="!over"
+        ></div>
+        <div class="wait-text" v-else>
+          GAME OVER
+        </div>
       </div>
 
-      <div class="col-6 column">
-        <div class="col-10">
-          <div
-            class="wait-text"
-            v-if="disable && !greenColor"
-            v-bind:disabled="greenColor"
-          >
-            Wait...
-          </div>
-          <div
-            id="circle"
-            v-on:click="stopTimer"
-            v-bind:class="{ green: greenColor }"
-            v-bind:style="targetStyle"
-            v-if="!over"
-          ></div>
-          <div class="wait-text" v-else>
-            GAME OVER
-          </div>
-        </div>
-        <div>
-          <q-btn
+      <!-- <div>
+        <q-btn
             round
             v-on:click="timer"
             v-bind:disabled="disable"
@@ -57,8 +52,7 @@
             icon="replay"
             class="q-mx-md"
           />
-        </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -95,10 +89,10 @@
           this.over = true;
         } else {
           this.reset();
-          this.timer();
+          this.countdown();
         }
       },
-      timer() {
+      countdown() {
         console.log(this.reactionTimes.length);
         this.disable = true;
         let green = Math.floor(Math.random() * 5000 + 10);
