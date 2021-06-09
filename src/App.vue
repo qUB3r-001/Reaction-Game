@@ -1,11 +1,16 @@
 <template>
-  <div id="app" class="column items-center">
-    <h2 class="q-pa-md">Reaction Test</h2>
+  <div id="app" class="column justify-center items-center" @mouseup="resetJoy">
+    <h2 class="q-pa-md q-mb-lg">Reaction Test</h2>
 
     <div id="PS-body" class="row">
       <div id="L-set">
-        <div id="L-joystick">
-          <div id="L-joystick-pad"></div>
+        <div id="L-joystick" @mousedown="startMove" @mousemove="moveAround">
+          <div
+            id="L-joystick-pad"
+            v-bind:style="{
+              transform: 'translate(' + joyPosX + 'px, ' + joyPosY + 'px)',
+            }"
+          ></div>
         </div>
         <div id="play-buttons" class="column justify-between text-center">
           <div id="power-button" class="q-mx-auto text-primary"></div>
@@ -26,23 +31,28 @@
         <div id="mode-buttons" class="text-center">
           <q-btn
             push
-            style="background: white; color: #EAEAEA"
+            rounded
+            style="background: #fafaf6; color: #EAEAEA"
             label="Target"
-            size="medium"
+            size="large"
             v-on:click="targetEnable"
+            class="q-ma-md"
           />
           <q-btn
             push
-            style="background: white; color: #EAEAEA"
+            rounded
+            style="background: #fafaf6; color: #EAEAEA"
             label="Reflex"
-            size="medium"
+            size="large"
             v-on:click="reflexEnable"
+            class="q-ma-md"
           />
         </div>
         <div id="start-stop-buttons">
           <q-btn
             push
             round
+            size="large"
             v-on:click="
               () => {
                 this.$refs[
@@ -51,19 +61,20 @@
               }
             "
             icon="play_arrow"
-            class="q-mx-md"
+            class="q-mx-sm text-grey"
             style="background: white"
           />
           <q-btn
             push
             round
+            size="large"
             v-on:click="
               () => {
                 this.$refs[`${targetShow ? 'myTarget' : 'myReflex'}`].reset();
               }
             "
             icon="replay"
-            class="q-mx-md"
+            class="q-mx-sm text-grey"
             style="background: white"
           />
         </div>
@@ -88,6 +99,9 @@
         targetShow: false,
         reflexShow: false,
         currRef: null,
+        joyPosX: null,
+        joyPosY: null,
+        move: false,
       };
     },
     methods: {
@@ -98,6 +112,23 @@
       reflexEnable() {
         this.reflexShow = true;
         this.targetShow = false;
+      },
+      moveAround(e) {
+        if (this.move) {
+          let rect = e.target.getBoundingClientRect();
+          this.joyPosX = Math.round(e.clientX - rect.left - 40) / 2;
+          this.joyPosY = Math.round(e.clientY - rect.top - 40) / 2;
+        } else {
+          this.joyPosX = 0;
+          this.joyPosY = 0;
+        }
+      },
+      resetJoy() {
+        this.move = false;
+      },
+      startMove(e) {
+        e.preventDefault();
+        this.move = true;
       },
     },
   };
@@ -114,12 +145,12 @@
   }
 
   #PS-body {
-    width: 85%;
+    width: 80%;
     aspect-ratio: 2.23;
   }
 
   #L-set {
-    background-color: #fcff52;
+    background-color: #00d1ff;
     height: 100%;
     width: 13.5%;
     border-radius: 100px 0 0 100px;
@@ -129,10 +160,11 @@
   }
 
   #power-button {
-    background-color: white;
+    background-color: #fafaf6;
     height: 32px;
     width: 32px;
     border-radius: 16px;
+    border: 3px solid rgb(218, 218, 218);
   }
 
   #play-buttons {
@@ -144,21 +176,21 @@
     background-color: rgb(218, 218, 218);
     height: 100px;
     width: 100px;
-
     border-radius: 50px;
     display: grid;
     place-items: center;
   }
 
   #L-joystick-pad {
-    background-color: #f5f5f5;
+    background-color: #fafaf6;
     height: 80px;
     width: 80px;
     border-radius: 40px;
+    transition: 0.1;
   }
 
   #R-set {
-    background-color: #fcff52;
+    background-color: #00d1ff;
     height: 100%;
     width: 13.5%;
     border-radius: 0 100px 100px 0;
@@ -175,7 +207,7 @@
   }
 
   #mid-screen {
-    background-color: rgb(206, 206, 206);
+    background-color: #fafaf6;
     width: 95%;
     aspect-ratio: 1.63;
     border-radius: 30px;
