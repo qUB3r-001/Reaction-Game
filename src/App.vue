@@ -2,7 +2,14 @@
   <div id="app" class="column justify-center items-center" @mouseup="resetJoy">
     <h2 class="q-pa-md q-mb-lg">Reaction Test</h2>
 
-    <div id="PS-body" class="row">
+    <div
+      id="PS-body"
+      class="row"
+      v-bind:style="{
+        transform:
+          'rotateX(' + -joyPosY / 3 + 'deg) rotateY(' + joyPosX / 7 + 'deg) ',
+      }"
+    >
       <div id="L-set">
         <div id="L-joystick" @mousedown="startMove" @mousemove="moveAround">
           <div
@@ -13,12 +20,40 @@
           ></div>
         </div>
         <div id="play-buttons" class="column justify-between text-center">
-          <div id="power-button" class="q-mx-auto text-primary"></div>
+          <q-btn
+            push
+            round
+            size="small"
+            id="power-button"
+            class="q-mx-auto"
+            label="△"
+          />
           <div class="row justify-between">
-            <div id="power-button"></div>
-            <div id="power-button"></div>
+            <q-btn
+              push
+              round
+              size="small"
+              id="power-button"
+              class="q-mx-auto"
+              label="◻"
+            />
+            <q-btn
+              push
+              round
+              size="small"
+              id="power-button"
+              class="q-mx-auto"
+              label="o"
+            />
           </div>
-          <div id="power-button" class="q-mx-auto"></div>
+          <q-btn
+            push
+            round
+            size="small"
+            id="power-button"
+            class="q-mx-auto"
+            label="✕"
+          />
         </div>
       </div>
       <div id="back-screen">
@@ -125,6 +160,8 @@
       },
       resetJoy() {
         this.move = false;
+        this.joyPosX = 0;
+        this.joyPosY = 0;
       },
       startMove(e) {
         e.preventDefault();
@@ -138,6 +175,8 @@
   #app {
     height: 100%;
     width: 100%;
+    perspective: 1000px;
+    transform-style: preserve-3d;
   }
 
   h2 {
@@ -147,6 +186,8 @@
   #PS-body {
     width: 80%;
     aspect-ratio: 2.23;
+    transition: 0.1s;
+    transform: translateZ(0);
   }
 
   #L-set {
@@ -157,19 +198,16 @@
     display: grid;
     place-items: center;
     opacity: 0.9;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+  }
+
+  #play-buttons {
+    width: 90%;
   }
 
   #power-button {
     background-color: #fafaf6;
-    height: 32px;
-    width: 32px;
-    border-radius: 16px;
-    border: 3px solid rgb(218, 218, 218);
-  }
-
-  #play-buttons {
-    height: 100px;
-    width: 100px;
   }
 
   #L-joystick {
