@@ -1,13 +1,13 @@
 <template>
   <div id="app" class="column justify-center items-center" @mouseup="resetJoy">
-    <h2 class="q-pa-md q-mb-lg">Reaction Test</h2>
+    <h2 class="q-pa-md">Reaction Test</h2>
 
     <div
       id="PS-body"
       class="row"
       v-bind:style="{
         transform:
-          'rotateX(' + -joyPosY / 3 + 'deg) rotateY(' + joyPosX / 7 + 'deg) ',
+          'rotateX(' + -joyPosY / 2 + 'deg) rotateY(' + joyPosX / 5 + 'deg) ',
       }"
     >
       <div id="L-set">
@@ -19,6 +19,7 @@
             }"
           ></div>
         </div>
+
         <div id="play-buttons" class="column justify-between text-center">
           <q-btn
             push
@@ -88,6 +89,7 @@
             push
             round
             size="large"
+            v-bind:disabled="gameBegin"
             v-on:click="
               () => {
                 this.$refs[
@@ -103,6 +105,7 @@
             push
             round
             size="large"
+            v-bind:disabled="gameBegin"
             v-on:click="
               () => {
                 this.$refs[`${targetShow ? 'myTarget' : 'myReflex'}`].reset();
@@ -133,6 +136,7 @@
       return {
         targetShow: false,
         reflexShow: false,
+        gameBegin: true,
         currRef: null,
         joyPosX: null,
         joyPosY: null,
@@ -143,16 +147,18 @@
       targetEnable() {
         this.targetShow = true;
         this.reflexShow = false;
+        this.gameBegin = false;
       },
       reflexEnable() {
         this.reflexShow = true;
         this.targetShow = false;
+        this.gameBegin = false;
       },
       moveAround(e) {
         if (this.move) {
           let rect = e.target.getBoundingClientRect();
-          this.joyPosX = Math.round(e.clientX - rect.left - 40) / 2;
-          this.joyPosY = Math.round(e.clientY - rect.top - 40) / 2;
+          this.joyPosX = Math.round(e.clientX - rect.left - 50) / 2;
+          this.joyPosY = Math.round(e.clientY - rect.top - 50) / 2;
         } else {
           this.joyPosX = 0;
           this.joyPosY = 0;
@@ -210,20 +216,28 @@
     background-color: #fafaf6;
   }
 
+  #L-joystick-base {
+    height: 120px;
+    width: 120px;
+    border-radius: 60px;
+    display: grid;
+    place-items: center;
+  }
+
   #L-joystick {
     background-color: rgb(218, 218, 218);
-    height: 100px;
-    width: 100px;
-    border-radius: 50px;
+    height: 120px;
+    width: 120px;
+    border-radius: 60px;
     display: grid;
     place-items: center;
   }
 
   #L-joystick-pad {
     background-color: #fafaf6;
-    height: 80px;
-    width: 80px;
-    border-radius: 40px;
+    height: 100px;
+    width: 100px;
+    border-radius: 50px;
     transition: 0.1;
   }
 

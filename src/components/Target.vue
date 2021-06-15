@@ -1,10 +1,30 @@
 <template>
-  <div class="row box">
-    <div class="col-6 column self-center">
-      <div class="col-5 text-center">
-        <h3>Time</h3>
-        <h2>{{ count }}</h2>
-      </div>
+  <div class="box">
+    <!-- <div class="col-6 column self-center">
+      
+    </div> -->
+
+    <!-- <h3>Time</h3>
+        <h2>{{ count }}</h2> -->
+
+    <div
+      v-bind:style="disable && { backgroundColor: 'rgb(248, 61, 61)' }"
+      v-if="disable && !greenColor"
+      class="standby-screen"
+    >
+      <h1>
+        Wait...
+      </h1>
+    </div>
+
+    <div
+      id="circle"
+      v-on:click="stopTimer"
+      v-bind:class="{ green: greenColor }"
+      v-else-if="!over"
+    ></div>
+    <div class="wait-text text-center" v-else>
+      GAME OVER
       <h3 class="col-7 text-center">
         Average Time : {{ reactionTimes.length === 5 ? averageTime : "--" }}
         <ul>
@@ -13,46 +33,6 @@
           </li>
         </ul>
       </h3>
-    </div>
-
-    <div class="col-6 column">
-      <div class="col-10">
-        <div
-          class="wait-text"
-          v-if="disable && !greenColor"
-          v-bind:disabled="greenColor"
-        >
-          Wait...
-        </div>
-        <div
-          id="circle"
-          v-on:click="stopTimer"
-          v-bind:class="{ green: greenColor }"
-          v-bind:style="targetStyle"
-          v-if="!over"
-        ></div>
-        <div class="wait-text" v-else>
-          GAME OVER
-        </div>
-      </div>
-
-      <!-- <div>
-        <q-btn
-            round
-            v-on:click="timer"
-            v-bind:disabled="disable"
-            color="secondary"
-            icon="play_arrow"
-            class="q-mx-md"
-          />
-          <q-btn
-            round
-            v-on:click="reset"
-            color="secondary"
-            icon="replay"
-            class="q-mx-md"
-          />
-      </div> -->
     </div>
   </div>
 </template>
@@ -95,7 +75,7 @@
       countdown() {
         console.log(this.reactionTimes.length);
         this.disable = true;
-        let green = Math.floor(Math.random() * 5000 + 10);
+        let green = Math.floor(Math.random() * 3500 + 500);
         this.grnTimer = setTimeout(() => {
           this.greenColor = true;
           this.rsTimer = setInterval(() => {
@@ -114,15 +94,6 @@
         this.radius = Math.floor(Math.random() * 50 + 50);
       },
     },
-    computed: {
-      targetStyle() {
-        return {
-          height: this.radius * 2 + "px",
-          width: this.radius * 2 + "px",
-          borderRadius: this.radius + "px",
-        };
-      },
-    },
   };
 </script>
 
@@ -130,22 +101,23 @@
   .box {
     width: 100%;
     height: 100%;
+    display: grid;
+    place-items: center;
   }
 
-  .wait-text {
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: transparent;
-    color: black;
+  .standby-screen {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    place-items: center;
+    border-radius: 30px;
+    color: white;
   }
 
   #circle {
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    height: 100%;
+    width: 100%;
+    border-radius: 30px;
     background-color: transparent;
     color: black;
   }

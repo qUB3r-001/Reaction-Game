@@ -10,27 +10,6 @@
         <h4 class="q-pa-xs">Missed Target : {{ miss }}</h4>
       </div>
     </div>
-    <!-- 
-    <div class="col-12 self-end button-div row items-center justify-center">
-      <q-btn
-        push
-        round
-        size="medium"
-        color="secondary"
-        v-on:click="countdown"
-        icon="play_arrow"
-        class="q-mx-md"
-      />
-      <q-btn
-        push
-        round
-        size="medium"
-        style="background: #ff414d; color: white"
-        v-on:click="reset"
-        icon="replay"
-        class="q-mx-md"
-      />
-    </div> -->
   </div>
 </template>
 
