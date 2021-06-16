@@ -1,13 +1,18 @@
 <template>
   <div class="row justify-center box">
     <div class="col-12" id="target-area" v-on:click="targetClick">
-      <div id="target-div">
+      <div id="target-div" v-if="!over">
         <img src="./bullseye.png" style="height:80px;width:80px" id="target" />
       </div>
       <div class="timer text-center">
         <h1>{{ timer !== 0 ? timer : "Time Up!" }}</h1>
-        <h4 class="q-pa-xs">Targets hit : {{ hits }}</h4>
-        <h4 class="q-pa-xs">Missed Target : {{ miss }}</h4>
+        <div v-if="over">
+          <h4 class="q-pa-xs">Targets hit : {{ hits }}</h4>
+          <h4 class="q-pa-xs">Missed Target : {{ miss }}</h4>
+        </div>
+        <div v-if="!start">
+          <h5>Click on target as fast as possible before the time runs out!</h5>
+        </div>
       </div>
     </div>
   </div>

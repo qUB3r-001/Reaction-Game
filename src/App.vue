@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="column justify-center items-center" @mouseup="resetJoy">
+  <div id="app" class="column items-center" @mouseup="resetJoy">
     <h2 class="q-pa-md">Reaction Test</h2>
 
     <div
@@ -7,7 +7,7 @@
       class="row"
       v-bind:style="{
         transform:
-          'rotateX(' + -joyPosY / 2 + 'deg) rotateY(' + joyPosX / 5 + 'deg) ',
+          'rotateX(' + -joyPosY / 2 + 'deg) rotateY(' + joyPosX / 4.5 + 'deg) ',
       }"
     >
       <div id="L-set">
@@ -66,20 +66,16 @@
       <div id="R-set">
         <div id="mode-buttons" class="text-center">
           <q-btn
-            push
             rounded
             style="background: #fafaf6; color: #EAEAEA"
             label="Target"
-            size="large"
             v-on:click="targetEnable"
             class="q-ma-md"
           />
           <q-btn
-            push
             rounded
             style="background: #fafaf6; color: #EAEAEA"
             label="Reflex"
-            size="large"
             v-on:click="reflexEnable"
             class="q-ma-md"
           />
@@ -88,7 +84,6 @@
           <q-btn
             push
             round
-            size="large"
             v-bind:disabled="gameBegin"
             v-on:click="
               () => {
@@ -104,7 +99,6 @@
           <q-btn
             push
             round
-            size="large"
             v-bind:disabled="gameBegin"
             v-on:click="
               () => {
@@ -197,13 +191,12 @@
   }
 
   #L-set {
-    background-color: #00d1ff;
+    background-color: #0d1618;
     height: 100%;
     width: 13.5%;
     border-radius: 100px 0 0 100px;
     display: grid;
     place-items: center;
-    opacity: 0.9;
     perspective: 1000px;
     transform-style: preserve-3d;
   }
@@ -213,7 +206,7 @@
   }
 
   #power-button {
-    background-color: #fafaf6;
+    background-color: #ffffff;
   }
 
   #L-joystick-base {
@@ -234,15 +227,14 @@
   }
 
   #L-joystick-pad {
-    background-color: #fafaf6;
     height: 100px;
     width: 100px;
     border-radius: 50px;
-    transition: 0.1;
+    background-color: white;
   }
 
   #R-set {
-    background-color: #00d1ff;
+    background-color: #0d1618;
     height: 100%;
     width: 13.5%;
     border-radius: 0 100px 100px 0;
@@ -251,7 +243,7 @@
   }
 
   #back-screen {
-    background-color: #383838;
+    background-color: #838383;
     width: 73%;
     aspect-ratio: 1.63;
     display: grid;

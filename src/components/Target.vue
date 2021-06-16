@@ -1,15 +1,15 @@
 <template>
   <div class="box">
-    <!-- <div class="col-6 column self-center">
-      
-    </div> -->
-
     <!-- <h3>Time</h3>
         <h2>{{ count }}</h2> -->
-
+    <div v-if="!disable">
+      <h5 class="text-center">
+        Wait for the green color and click as fast as possible in a set of 5
+      </h5>
+    </div>
     <div
       v-bind:style="disable && { backgroundColor: 'rgb(248, 61, 61)' }"
-      v-if="disable && !greenColor"
+      v-else-if="disable && !greenColor"
       class="standby-screen"
     >
       <h1>
