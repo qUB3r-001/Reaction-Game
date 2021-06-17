@@ -110,7 +110,7 @@
     width: 100%;
     display: grid;
     place-items: center;
-    border-radius: 30px;
+    border-radius: 20px;
     color: white;
   }
 

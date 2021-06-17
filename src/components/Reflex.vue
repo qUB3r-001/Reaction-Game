@@ -84,7 +84,7 @@
   #target-area {
     position: relative;
     height: 100%;
-    border-radius: 10px;
+    border-radius: 20px;
   }
 
   #target-div {

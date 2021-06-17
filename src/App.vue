@@ -1,115 +1,120 @@
 <template>
-  <div id="app" class="column items-center" @mouseup="resetJoy">
-    <h2 class="q-pa-md">Reaction Test</h2>
+  <div id="app" @mouseup="resetJoy">
+    <div class="wrapper">
+      <h2 class="q-pa-sm text-center">Reaction Test</h2>
 
-    <div
-      id="PS-body"
-      class="row"
-      v-bind:style="{
-        transform:
-          'rotateX(' + -joyPosY / 2 + 'deg) rotateY(' + joyPosX / 4.5 + 'deg) ',
-      }"
-    >
-      <div id="L-set">
-        <div id="L-joystick" @mousedown="startMove" @mousemove="moveAround">
-          <div
-            id="L-joystick-pad"
-            v-bind:style="{
-              transform: 'translate(' + joyPosX + 'px, ' + joyPosY + 'px)',
-            }"
-          ></div>
-        </div>
+      <div></div>
+      <div
+        id="PS-body"
+        class="row q-mx-auto"
+        v-bind:style="{
+          transform:
+            'rotateX(' +
+            -joyPosY / 2 +
+            'deg) rotateY(' +
+            joyPosX / 4.5 +
+            'deg) ',
+        }"
+      >
+        <div class="ps-wrapper row justify-center">
+          <div id="L-set">
+            <div id="L-joystick" @mousedown="startMove" @mousemove="moveAround">
+              <div
+                id="L-joystick-pad"
+                v-bind:style="{
+                  transform: 'translate(' + joyPosX + 'px, ' + joyPosY + 'px)',
+                }"
+              ></div>
+            </div>
 
-        <div id="play-buttons" class="column justify-between text-center">
-          <q-btn
-            push
-            round
-            size="small"
-            id="power-button"
-            class="q-mx-auto"
-            label="△"
-          />
-          <div class="row justify-between">
-            <q-btn
-              push
-              round
-              size="small"
-              id="power-button"
-              class="q-mx-auto"
-              label="◻"
-            />
-            <q-btn
-              push
-              round
-              size="small"
-              id="power-button"
-              class="q-mx-auto"
-              label="o"
-            />
+            <div id="play-buttons" class="column justify-evenly">
+              <q-btn
+                push
+                round
+                size="10px"
+                id="power-button"
+                class="q-mx-auto"
+                label="△"
+              />
+              <div class="row justify-between">
+                <q-btn push round size="10px" id="power-button" label="◻" />
+                <q-btn push round size="10px" id="power-button" label="o" />
+              </div>
+              <q-btn
+                push
+                round
+                size="10px"
+                id="power-button"
+                class="q-mx-auto"
+                label="✕"
+              />
+            </div>
           </div>
-          <q-btn
-            push
-            round
-            size="small"
-            id="power-button"
-            class="q-mx-auto"
-            label="✕"
-          />
+          <div id="back-screen">
+            <div id="mid-screen">
+              <Target v-show="targetShow" ref="myTarget" />
+              <Reflex v-show="reflexShow" ref="myReflex" />
+            </div>
+          </div>
+          <div id="R-set">
+            <div id="mode-buttons" class="text-center">
+              <q-btn
+                rounded
+                style="background: #fafaf6"
+                label="Target"
+                v-on:click="targetEnable"
+                v-bind:style="targetShow && { background: 'cyan' }"
+                class="q-ma-md"
+                size="lg"
+              />
+              <q-btn
+                rounded
+                style="background: #fafaf6"
+                label="Reflex"
+                v-on:click="reflexEnable"
+                v-bind:style="reflexShow && { background: 'cyan' }"
+                class="q-ma-md"
+                size="lg"
+              />
+            </div>
+            <div id="start-stop-buttons">
+              <q-btn
+                push
+                round
+                v-bind:disabled="gameBegin"
+                v-on:click="
+                  () => {
+                    this.$refs[
+                      `${targetShow ? 'myTarget' : 'myReflex'}`
+                    ].countdown();
+                  }
+                "
+                icon="play_arrow"
+                class="q-mx-sm text-grey"
+                style="background: white"
+              />
+              <q-btn
+                push
+                round
+                v-bind:disabled="gameBegin"
+                v-on:click="
+                  () => {
+                    this.$refs[
+                      `${targetShow ? 'myTarget' : 'myReflex'}`
+                    ].reset();
+                  }
+                "
+                icon="replay"
+                class="q-mx-sm text-grey"
+                style="background: white"
+              />
+            </div>
+          </div>
         </div>
       </div>
-      <div id="back-screen">
-        <div id="mid-screen">
-          <Target v-show="targetShow" ref="myTarget" />
-          <Reflex v-show="reflexShow" ref="myReflex" />
-        </div>
-      </div>
-      <div id="R-set">
-        <div id="mode-buttons" class="text-center">
-          <q-btn
-            rounded
-            style="background: #fafaf6; color: #EAEAEA"
-            label="Target"
-            v-on:click="targetEnable"
-            class="q-ma-md"
-          />
-          <q-btn
-            rounded
-            style="background: #fafaf6; color: #EAEAEA"
-            label="Reflex"
-            v-on:click="reflexEnable"
-            class="q-ma-md"
-          />
-        </div>
-        <div id="start-stop-buttons">
-          <q-btn
-            push
-            round
-            v-bind:disabled="gameBegin"
-            v-on:click="
-              () => {
-                this.$refs[
-                  `${targetShow ? 'myTarget' : 'myReflex'}`
-                ].countdown();
-              }
-            "
-            icon="play_arrow"
-            class="q-mx-sm text-grey"
-            style="background: white"
-          />
-          <q-btn
-            push
-            round
-            v-bind:disabled="gameBegin"
-            v-on:click="
-              () => {
-                this.$refs[`${targetShow ? 'myTarget' : 'myReflex'}`].reset();
-              }
-            "
-            icon="replay"
-            class="q-mx-sm text-grey"
-            style="background: white"
-          />
-        </div>
+      <div class="text-center q-pa-md">
+        ""Neque porro quisquam est qui dolorem ipsum quia dolor sit amet,
+        consectetur, adipisci velit...""
       </div>
     </div>
   </div>
@@ -173,10 +178,17 @@
 
 <style scoped>
   #app {
-    height: 100%;
-    width: 100%;
     perspective: 1000px;
-    transform-style: preserve-3d;
+    height: 100%;
+    background-color: #f1f1f1;
+    background-image: url("https://www.transparenttextures.com/patterns/inspiration-geometry.png");
+    /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+    display: grid;
+    place-items: center;
+  }
+
+  .wrapper {
+    width: 100%;
   }
 
   h2 {
@@ -184,37 +196,30 @@
   }
 
   #PS-body {
-    width: 80%;
+    width: 85%;
     aspect-ratio: 2.23;
-    transition: 0.1s;
-    transform: translateZ(0);
+  }
+
+  .ps-wrapper {
+    width: 100%;
   }
 
   #L-set {
     background-color: #0d1618;
-    height: 100%;
-    width: 13.5%;
+    width: 14%;
     border-radius: 100px 0 0 100px;
     display: grid;
     place-items: center;
     perspective: 1000px;
-    transform-style: preserve-3d;
   }
 
   #play-buttons {
-    width: 90%;
+    width: 50%;
+    aspect-ratio: 1;
   }
 
   #power-button {
     background-color: #ffffff;
-  }
-
-  #L-joystick-base {
-    height: 120px;
-    width: 120px;
-    border-radius: 60px;
-    display: grid;
-    place-items: center;
   }
 
   #L-joystick {
@@ -235,8 +240,7 @@
 
   #R-set {
     background-color: #0d1618;
-    height: 100%;
-    width: 13.5%;
+    width: 14%;
     border-radius: 0 100px 100px 0;
     display: grid;
     place-items: center;
@@ -244,16 +248,37 @@
 
   #back-screen {
     background-color: #838383;
-    width: 73%;
+    width: 0;
     aspect-ratio: 1.63;
     display: grid;
     place-items: center;
+    transform-origin: center;
+    animation: anim 1.4s ease-in-out forwards;
   }
 
   #mid-screen {
     background-color: #fafaf6;
-    width: 95%;
-    aspect-ratio: 1.63;
-    border-radius: 30px;
+    width: 98%;
+    height: 95%;
+    border-radius: 20px;
+    animation: anim1 1.4s ease-in-out forwards;
+  }
+
+  @keyframes anim {
+    from {
+      width: 0;
+    }
+    to {
+      width: 72%;
+    }
+  }
+
+  @keyframes anim1 {
+    from {
+      width: 0;
+    }
+    to {
+      width: 98%;
+    }
   }
 </style>
