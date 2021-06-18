@@ -1,7 +1,7 @@
 <template>
   <div id="app" @mouseup="resetJoy">
     <div class="wrapper">
-      <h2 class="q-pa-sm text-center">Reaction Test</h2>
+      <h1 class="q-pa-sm text-center">Reaction Test</h1>
 
       <div></div>
       <div
@@ -27,27 +27,23 @@
               ></div>
             </div>
 
-            <div id="play-buttons" class="column justify-evenly">
+            <div id="play-buttons">
               <q-btn
                 push
                 round
-                size="10px"
-                id="power-button"
-                class="q-mx-auto"
-                label="△"
+                id="btn-top"
+                padding="none"
+                icon="change_history"
               />
-              <div class="row justify-between">
-                <q-btn push round size="10px" id="power-button" label="◻" />
-                <q-btn push round size="10px" id="power-button" label="o" />
-              </div>
+              <q-btn push round id="btn-left" padding="0" icon="crop_square" />
               <q-btn
                 push
                 round
-                size="10px"
-                id="power-button"
-                class="q-mx-auto"
-                label="✕"
+                id="btn-right"
+                padding="0"
+                icon="radio_button_unchecked"
               />
+              <q-btn push round id="btn-bottom" padding="0" icon="close" />
             </div>
           </div>
           <div id="back-screen">
@@ -60,19 +56,31 @@
             <div id="mode-buttons" class="text-center">
               <q-btn
                 rounded
-                style="background: #fafaf6"
+                style="background: #fafaf6;color: grey"
                 label="Target"
                 v-on:click="targetEnable"
-                v-bind:style="targetShow && { background: 'cyan' }"
+                v-bind:style="
+                  targetShow && {
+                    background: '#50D890',
+                    boxShadow: '0 0 20px #50D890',
+                    color: 'white',
+                  }
+                "
                 class="q-ma-md"
                 size="lg"
               />
               <q-btn
                 rounded
-                style="background: #fafaf6"
+                style="background: #fafaf6;color: grey"
                 label="Reflex"
                 v-on:click="reflexEnable"
-                v-bind:style="reflexShow && { background: 'cyan' }"
+                v-bind:style="
+                  reflexShow && {
+                    background: '#4F98CA',
+                    boxShadow: '0 0 20px #4F98CA',
+                    color: 'white',
+                  }
+                "
                 class="q-ma-md"
                 size="lg"
               />
@@ -112,9 +120,11 @@
           </div>
         </div>
       </div>
-      <div class="text-center q-pa-md">
-        ""Neque porro quisquam est qui dolorem ipsum quia dolor sit amet,
-        consectetur, adipisci velit...""
+      <div class="text-center q-pa-md text-grey">
+        "The Sony PSP was hackable allowing users to download any firmware
+        including Windows, NES and even PS3"
+        <br />
+        Made By - qUB3r
       </div>
     </div>
   </div>
@@ -188,11 +198,11 @@
   }
 
   .wrapper {
-    width: 100%;
+    width: 90%;
   }
 
-  h2 {
-    font-family: "Advent Pro", sans-serif;
+  h1 {
+    font-family: "Faster One", cursive;
   }
 
   #PS-body {
@@ -205,7 +215,7 @@
   }
 
   #L-set {
-    background-color: #0d1618;
+    background-color: #272727;
     width: 14%;
     border-radius: 100px 0 0 100px;
     display: grid;
@@ -214,32 +224,55 @@
   }
 
   #play-buttons {
-    width: 50%;
+    width: 70%;
     aspect-ratio: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+      ". top ."
+      "left . right"
+      ". bottom .";
   }
 
-  #power-button {
+  #btn-top {
     background-color: #ffffff;
+    grid-area: top;
+  }
+
+  #btn-left {
+    background-color: #ffffff;
+    grid-area: left;
+  }
+
+  #btn-right {
+    background-color: #ffffff;
+    grid-area: right;
+  }
+
+  #btn-bottom {
+    background-color: #ffffff;
+    grid-area: bottom;
   }
 
   #L-joystick {
     background-color: rgb(218, 218, 218);
-    height: 120px;
-    width: 120px;
+    width: 70%;
+    aspect-ratio: 1;
     border-radius: 60px;
     display: grid;
     place-items: center;
   }
 
   #L-joystick-pad {
-    height: 100px;
-    width: 100px;
+    width: 85%;
+    aspect-ratio: 1;
     border-radius: 50px;
     background-color: white;
   }
 
   #R-set {
-    background-color: #0d1618;
+    background-color: #272727;
     width: 14%;
     border-radius: 0 100px 100px 0;
     display: grid;
