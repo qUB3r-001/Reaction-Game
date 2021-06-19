@@ -117,7 +117,7 @@
   #circle {
     height: 100%;
     width: 100%;
-    border-radius: 30px;
+    border-radius: 20px;
     background-color: transparent;
     color: black;
   }

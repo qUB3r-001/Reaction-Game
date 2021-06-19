@@ -3,7 +3,6 @@
     <div class="wrapper">
       <h1 class="q-pa-sm text-center">Reaction Test</h1>
 
-      <div></div>
       <div
         id="PS-body"
         class="row q-mx-auto"
@@ -46,8 +45,11 @@
               <q-btn push round id="btn-bottom" padding="0" icon="close" />
             </div>
           </div>
-          <div id="back-screen">
-            <div id="mid-screen">
+          <div
+            class="back-screen"
+            v-bind:class="[open === null ? '' : open ? 'pspStart' : 'pspClose']"
+          >
+            <div class="mid-screen">
               <Target v-show="targetShow" ref="myTarget" />
               <Reflex v-show="reflexShow" ref="myReflex" />
             </div>
@@ -57,35 +59,43 @@
               <q-btn
                 rounded
                 style="background: #fafaf6;color: grey"
-                label="Target"
+                icon="speed"
                 v-on:click="targetEnable"
                 v-bind:style="
                   targetShow && {
-                    background: '#50D890',
-                    boxShadow: '0 0 20px #50D890',
-                    color: 'white',
+                    boxShadow: 'inset 0 0 30px green',
+                    color: 'black',
                   }
                 "
-                class="q-ma-md"
                 size="lg"
+                class="q-my-sm"
+                padding="sm xl"
               />
               <q-btn
                 rounded
                 style="background: #fafaf6;color: grey"
-                label="Reflex"
+                icon="track_changes"
                 v-on:click="reflexEnable"
                 v-bind:style="
                   reflexShow && {
-                    background: '#4F98CA',
-                    boxShadow: '0 0 20px #4F98CA',
-                    color: 'white',
+                    boxShadow: 'inset 0 0 30px #4F98CA',
+                    color: 'black',
                   }
                 "
-                class="q-ma-md"
                 size="lg"
+                class="q-my-sm"
+                padding="sm xl"
               />
             </div>
             <div id="start-stop-buttons">
+              <q-btn
+                push
+                round
+                icon="light_mode"
+                class="text-grey light-btn"
+                style="background: white"
+                padding="0"
+              />
               <q-btn
                 push
                 round
@@ -98,8 +108,9 @@
                   }
                 "
                 icon="play_arrow"
-                class="q-mx-sm text-grey"
+                class="text-grey start-btn"
                 style="background: white"
+                padding="0"
               />
               <q-btn
                 push
@@ -113,8 +124,18 @@
                   }
                 "
                 icon="replay"
-                class="q-mx-sm text-grey"
+                class="text-grey stop-btn"
                 style="background: white"
+                padding="0"
+              />
+              <q-btn
+                push
+                round
+                icon="power_settings_new"
+                class="text-grey power-btn"
+                style="background: white"
+                padding="0"
+                v-on:click="open === null ? (open = true) : (open = !open)"
               />
             </div>
           </div>
@@ -150,6 +171,7 @@
         joyPosX: null,
         joyPosY: null,
         move: false,
+        open: null,
       };
     },
     methods: {
@@ -206,8 +228,8 @@
   }
 
   #PS-body {
-    width: 85%;
-    aspect-ratio: 2.23;
+    width: 87%;
+    aspect-ratio: 2.33;
   }
 
   .ps-wrapper {
@@ -255,6 +277,38 @@
     grid-area: bottom;
   }
 
+  #start-stop-buttons {
+    width: 70%;
+    aspect-ratio: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas:
+      ". top ."
+      "left . right"
+      ". mid .";
+  }
+
+  .start-btn {
+    grid-area: left;
+  }
+
+  .stop-btn {
+    grid-area: right;
+  }
+
+  .power-btn {
+    grid-area: mid;
+  }
+
+  .light-btn {
+    grid-area: top;
+  }
+
+  #mode-buttons {
+    width: 70%;
+  }
+
   #L-joystick {
     background-color: rgb(218, 218, 218);
     width: 70%;
@@ -279,22 +333,28 @@
     place-items: center;
   }
 
-  #back-screen {
+  .back-screen {
     background-color: #838383;
     width: 0;
     aspect-ratio: 1.63;
     display: grid;
     place-items: center;
     transform-origin: center;
+  }
+
+  .pspStart {
     animation: anim 1.4s ease-in-out forwards;
   }
 
-  #mid-screen {
+  .pspClose {
+    animation: revanim 1.4s ease-in-out forwards;
+  }
+
+  .mid-screen {
     background-color: #fafaf6;
     width: 98%;
     height: 95%;
     border-radius: 20px;
-    animation: anim1 1.4s ease-in-out forwards;
   }
 
   @keyframes anim {
@@ -306,12 +366,12 @@
     }
   }
 
-  @keyframes anim1 {
+  @keyframes revanim {
     from {
-      width: 0;
+      width: 72%;
     }
     to {
-      width: 98%;
+      width: 0;
     }
   }
 </style>
