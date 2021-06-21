@@ -61,30 +61,28 @@
                 style="background: #fafaf6;color: grey"
                 icon="speed"
                 v-on:click="targetEnable"
+                v-bind:disabled="!open"
                 v-bind:style="
                   targetShow && {
                     boxShadow: 'inset 0 0 30px green',
                     color: 'black',
                   }
                 "
-                size="lg"
                 class="q-my-sm"
-                padding="sm xl"
               />
               <q-btn
                 rounded
                 style="background: #fafaf6;color: grey"
                 icon="track_changes"
                 v-on:click="reflexEnable"
+                v-bind:disabled="!open"
                 v-bind:style="
                   reflexShow && {
                     boxShadow: 'inset 0 0 30px #4F98CA',
                     color: 'black',
                   }
                 "
-                size="lg"
                 class="q-my-sm"
-                padding="sm xl"
               />
             </div>
             <div id="start-stop-buttons">
@@ -135,15 +133,16 @@
                 class="text-grey power-btn"
                 style="background: white"
                 padding="0"
-                v-on:click="open === null ? (open = true) : (open = !open)"
+                v-on:click="powerSwitch"
               />
             </div>
           </div>
         </div>
       </div>
-      <div class="text-center q-pa-md text-grey">
-        "The Sony PSP was hackable allowing users to download any firmware
-        including Windows, NES and even PS3"
+      <div class="text-center q-pa-md text-grey footer-text">
+        "The most popular hack will undoubtedly remain the Pandora’s Battery.
+        This hacking method allows you to convert your PSP battery into a
+        bootable one thus able to run Windows, Mac and even NES games."
         <br />
         Made By - qUB3r
       </div>
@@ -175,6 +174,12 @@
       };
     },
     methods: {
+      powerSwitch() {
+        this.open === null ? (this.open = true) : (this.open = !this.open);
+        this.targetShow = false;
+        this.reflexShow = false;
+        this.gameBegin = true;
+      },
       targetEnable() {
         this.targetShow = true;
         this.reflexShow = false;
@@ -229,7 +234,7 @@
 
   #PS-body {
     width: 87%;
-    aspect-ratio: 2.33;
+    aspect-ratio: 2.34;
   }
 
   .ps-wrapper {
@@ -238,8 +243,8 @@
 
   #L-set {
     background-color: #272727;
-    width: 14%;
-    border-radius: 100px 0 0 100px;
+    width: 15%;
+    border-radius: 6em 0 0 6em;
     display: grid;
     place-items: center;
     perspective: 1000px;
@@ -309,6 +314,13 @@
     width: 70%;
   }
 
+  #mode-buttons button {
+    width: 95%;
+    aspect-ratio: 2;
+    padding: 0;
+    font-size: 1.3em;
+  }
+
   #L-joystick {
     background-color: rgb(218, 218, 218);
     width: 70%;
@@ -327,8 +339,8 @@
 
   #R-set {
     background-color: #272727;
-    width: 14%;
-    border-radius: 0 100px 100px 0;
+    width: 15%;
+    border-radius: 0 6em 6em 0;
     display: grid;
     place-items: center;
   }
@@ -343,11 +355,11 @@
   }
 
   .pspStart {
-    animation: anim 1.4s ease-in-out forwards;
+    animation: anim 0.75s ease-in-out forwards;
   }
 
   .pspClose {
-    animation: revanim 1.4s ease-in-out forwards;
+    animation: revanim 0.75s ease-in-out forwards;
   }
 
   .mid-screen {
@@ -362,16 +374,20 @@
       width: 0;
     }
     to {
-      width: 72%;
+      width: 70%;
     }
   }
 
   @keyframes revanim {
     from {
-      width: 72%;
+      width: 70%;
     }
     to {
       width: 0;
     }
+  }
+
+  .footer-text {
+    font-family: "Architects Daughter", cursive;
   }
 </style>

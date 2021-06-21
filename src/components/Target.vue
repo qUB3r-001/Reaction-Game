@@ -3,7 +3,7 @@
     <!-- <h3>Time</h3>
         <h2>{{ count }}</h2> -->
     <div v-if="!disable">
-      <h5 class="text-center">
+      <h5 class="text-center info-text">
         Wait for the green color and click as fast as possible in a set of 5
       </h5>
     </div>
@@ -43,7 +43,6 @@
     data() {
       return {
         count: 0,
-        radius: 100,
         rsTimer: null,
         disable: false,
         grnTimer: null,
@@ -112,6 +111,10 @@
     place-items: center;
     border-radius: 20px;
     color: white;
+  }
+
+  .info-text {
+    opacity: 0.1;
   }
 
   #circle {

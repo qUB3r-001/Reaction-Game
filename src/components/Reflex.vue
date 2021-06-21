@@ -2,7 +2,11 @@
   <div class="row justify-center box">
     <div class="col-12" id="target-area" v-on:click="targetClick">
       <div id="target-div" v-if="!over">
-        <img src="./bullseye.png" style="height:80px;width:80px" id="target" />
+        <img
+          src="../../public/bullseye.png"
+          style="height:80px;width:80px"
+          id="target"
+        />
       </div>
       <div class="timer text-center">
         <h1>{{ timer !== 0 ? timer : "Time Up!" }}</h1>
@@ -77,9 +81,9 @@
     height: 100%;
   }
 
-  h5 {
+  /* h5 {
     line-height: 4vh;
-  }
+  } */
 
   #target-area {
     position: relative;
