@@ -114,7 +114,8 @@
   }
 
   .info-text {
-    opacity: 0.1;
+    font-family: "Josefin Sans", sans-serif;
+    opacity: 0.3;
   }
 
   #circle {

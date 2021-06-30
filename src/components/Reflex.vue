@@ -115,11 +115,12 @@
   }
 
   .timer {
+    font-family: "Josefin Sans", sans-serif;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    opacity: 0.1;
+    opacity: 0.3;
     z-index: 9;
   }
 </style>

@@ -58,13 +58,14 @@
             <div id="mode-buttons" class="text-center">
               <q-btn
                 rounded
-                style="background: #fafaf6;color: grey"
+                style="color: grey"
                 icon="speed"
                 v-on:click="targetEnable"
                 v-bind:disabled="!open"
                 v-bind:style="
                   targetShow && {
-                    boxShadow: 'inset 0 0 30px green',
+                    backgroundColor: '#fafafafa',
+                    boxShadow: '0 0 30px white',
                     color: 'black',
                   }
                 "
@@ -72,13 +73,14 @@
               />
               <q-btn
                 rounded
-                style="background: #fafaf6;color: grey"
+                style="color: grey"
                 icon="track_changes"
                 v-on:click="reflexEnable"
                 v-bind:disabled="!open"
                 v-bind:style="
                   reflexShow && {
-                    boxShadow: 'inset 0 0 30px #4F98CA',
+                    backgroundColor: '#fafafafa',
+                    boxShadow: '0 0 30px white',
                     color: 'black',
                   }
                 "
@@ -91,7 +93,6 @@
                 round
                 icon="light_mode"
                 class="text-grey light-btn"
-                style="background: white"
                 padding="0"
               />
               <q-btn
@@ -107,7 +108,6 @@
                 "
                 icon="play_arrow"
                 class="text-grey start-btn"
-                style="background: white"
                 padding="0"
               />
               <q-btn
@@ -123,15 +123,14 @@
                 "
                 icon="replay"
                 class="text-grey stop-btn"
-                style="background: white"
                 padding="0"
               />
               <q-btn
                 push
                 round
                 icon="power_settings_new"
-                class="text-grey power-btn"
-                style="background: white"
+                class="text-grey
+              power-btn"
                 padding="0"
                 v-on:click="powerSwitch"
               />
@@ -217,11 +216,24 @@
   #app {
     perspective: 1000px;
     height: 100%;
-    background-color: #f1f1f1;
-    background-image: url("https://www.transparenttextures.com/patterns/inspiration-geometry.png");
+    /* background-image: linear-gradient(45deg, #f7fd04, #fc5404); */
+    background-image: linear-gradient(90deg, #7579e7, #b9fffc);
+    background-size: 200%, 100%;
+    /* background-image: url("https://www.transparenttextures.com/patterns/inspiration-geometry.png"); */
     /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
     display: grid;
     place-items: center;
+    animation: slide 20s linear infinite;
+  }
+
+  @keyframes slide {
+    0%,
+    100% {
+      background-position: 0%, 100%;
+    }
+    50% {
+      background-position: 100%, 100%;
+    }
   }
 
   .wrapper {
