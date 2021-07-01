@@ -33,16 +33,32 @@
                 id="btn-top"
                 padding="none"
                 icon="change_history"
+                class="text-yellow light-btn"
               />
-              <q-btn push round id="btn-left" padding="0" icon="crop_square" />
+              <q-btn
+                push
+                round
+                id="btn-left"
+                padding="0"
+                icon="crop_square"
+                class="text-green light-btn"
+              />
               <q-btn
                 push
                 round
                 id="btn-right"
                 padding="0"
                 icon="radio_button_unchecked"
+                class="text-red light-btn"
               />
-              <q-btn push round id="btn-bottom" padding="0" icon="close" />
+              <q-btn
+                push
+                round
+                id="btn-bottom"
+                padding="0"
+                icon="close"
+                class="text-blue light-btn"
+              />
             </div>
           </div>
           <div
@@ -58,32 +74,20 @@
             <div id="mode-buttons" class="text-center">
               <q-btn
                 rounded
-                style="color: grey"
+                style="color: #474747"
                 icon="speed"
                 v-on:click="targetEnable"
                 v-bind:disabled="!open"
-                v-bind:style="
-                  targetShow && {
-                    backgroundColor: '#fafafafa',
-                    boxShadow: '0 0 30px white',
-                    color: 'black',
-                  }
-                "
+                v-bind:style="targetShow && { color: '#ebebeb' }"
                 class="q-my-sm"
               />
               <q-btn
                 rounded
-                style="color: grey"
+                style="color: #474747"
                 icon="track_changes"
                 v-on:click="reflexEnable"
                 v-bind:disabled="!open"
-                v-bind:style="
-                  reflexShow && {
-                    backgroundColor: '#fafafafa',
-                    boxShadow: '0 0 30px white',
-                    color: 'black',
-                  }
-                "
+                v-bind:style="reflexShow && { color: '#ebebeb' }"
                 class="q-my-sm"
               />
             </div>
@@ -92,13 +96,15 @@
                 push
                 round
                 icon="light_mode"
-                class="text-grey light-btn"
+                class="light-btn"
                 padding="0"
+                style="color: #FFEB3B"
               />
               <q-btn
                 push
                 round
                 v-bind:disabled="gameBegin"
+                v-bind:style="!gameBegin && { color: '#4CAF50' }"
                 v-on:click="
                   () => {
                     this.$refs[
@@ -107,13 +113,15 @@
                   }
                 "
                 icon="play_arrow"
-                class="text-grey start-btn"
+                class="start-btn"
                 padding="0"
+                style="color: #474747"
               />
               <q-btn
                 push
                 round
                 v-bind:disabled="gameBegin"
+                v-bind:style="!gameBegin && { color: '#F44336' }"
                 v-on:click="
                   () => {
                     this.$refs[
@@ -122,16 +130,18 @@
                   }
                 "
                 icon="replay"
-                class="text-grey stop-btn"
+                class="stop-btn"
                 padding="0"
+                style="color: #474747"
               />
               <q-btn
                 push
                 round
                 icon="power_settings_new"
-                class="text-grey
-              power-btn"
+                class="power-btn"
                 padding="0"
+                style="color: #474747"
+                v-bind:style="open && { color: '#2196F3' }"
                 v-on:click="powerSwitch"
               />
             </div>
@@ -216,24 +226,10 @@
   #app {
     perspective: 1000px;
     height: 100%;
-    /* background-image: linear-gradient(45deg, #f7fd04, #fc5404); */
-    background-image: linear-gradient(90deg, #7579e7, #b9fffc);
-    background-size: 200%, 100%;
-    /* background-image: url("https://www.transparenttextures.com/patterns/inspiration-geometry.png"); */
-    /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+    background-image: url("https://www.transparenttextures.com/patterns/inspiration-geometry.png");
+    /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you!*/
     display: grid;
     place-items: center;
-    animation: slide 20s linear infinite;
-  }
-
-  @keyframes slide {
-    0%,
-    100% {
-      background-position: 0%, 100%;
-    }
-    50% {
-      background-position: 100%, 100%;
-    }
   }
 
   .wrapper {
@@ -275,22 +271,18 @@
   }
 
   #btn-top {
-    background-color: #ffffff;
     grid-area: top;
   }
 
   #btn-left {
-    background-color: #ffffff;
     grid-area: left;
   }
 
   #btn-right {
-    background-color: #ffffff;
     grid-area: right;
   }
 
   #btn-bottom {
-    background-color: #ffffff;
     grid-area: bottom;
   }
 
@@ -334,7 +326,7 @@
   }
 
   #L-joystick {
-    background-color: rgb(218, 218, 218);
+    background-color: #3a3a3a;
     width: 70%;
     aspect-ratio: 1;
     border-radius: 60px;
@@ -346,7 +338,7 @@
     width: 85%;
     aspect-ratio: 1;
     border-radius: 50px;
-    background-color: white;
+    background-color: #686d76;
   }
 
   #R-set {
