@@ -92,13 +92,14 @@
               />
             </div>
             <div id="start-stop-buttons">
+              <!-- //style="color: #FFEB3B" -->
               <q-btn
                 push
                 round
                 icon="light_mode"
                 class="light-btn"
                 padding="0"
-                style="color: #FFEB3B"
+                style="color: #444444"
               />
               <q-btn
                 push
@@ -233,7 +234,7 @@
   }
 
   .wrapper {
-    width: 90%;
+    width: 92%;
   }
 
   h1 {
@@ -241,8 +242,8 @@
   }
 
   #PS-body {
-    width: 87%;
-    aspect-ratio: 2.34;
+    width: 95%;
+    aspect-ratio: 2.6;
   }
 
   .ps-wrapper {
@@ -329,7 +330,7 @@
     background-color: #3a3a3a;
     width: 70%;
     aspect-ratio: 1;
-    border-radius: 60px;
+    border-radius: 80px;
     display: grid;
     place-items: center;
   }
@@ -337,7 +338,7 @@
   #L-joystick-pad {
     width: 85%;
     aspect-ratio: 1;
-    border-radius: 50px;
+    border-radius: 80px;
     background-color: #686d76;
   }
 
@@ -352,18 +353,18 @@
   .back-screen {
     background-color: #838383;
     width: 0;
-    aspect-ratio: 1.63;
+    aspect-ratio: 2;
     display: grid;
     place-items: center;
     transform-origin: center;
   }
 
   .pspStart {
-    animation: anim 0.75s ease-in-out forwards;
+    animation: anim 0.5s ease-in-out forwards;
   }
 
   .pspClose {
-    animation: revanim 0.75s ease-in-out forwards;
+    animation: revanim 0.5s ease-in-out forwards;
   }
 
   .mid-screen {

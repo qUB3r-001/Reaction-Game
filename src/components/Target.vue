@@ -1,7 +1,5 @@
 <template>
   <div class="box">
-    <!-- <h3>Time</h3>
-        <h2>{{ count }}</h2> -->
     <div v-if="!disable">
       <h5 class="text-center info-text">
         Wait for the green color and click as fast as possible in a set of 5
@@ -10,6 +8,7 @@
     <div
       v-bind:style="disable && { backgroundColor: 'rgb(248, 61, 61)' }"
       v-else-if="disable && !greenColor"
+      v-on:click="errorClick"
       class="standby-screen"
     >
       <h1>
@@ -22,9 +21,12 @@
       v-on:click="stopTimer"
       v-bind:class="{ green: greenColor }"
       v-else-if="!over"
-    ></div>
+    >
+      <h1>{{ count }}</h1>
+    </div>
+
     <div class="wait-text text-center" v-else>
-      GAME OVER
+      <h2>GAME OVER</h2>
       <h3 class="col-7 text-center">
         Average Time : {{ reactionTimes.length === 5 ? averageTime : "--" }}
         <ul>
@@ -53,10 +55,17 @@
       };
     },
     methods: {
+      errorClick() {
+        this.disable = true;
+        this.greenColor = true;
+        this.over = true;
+        clearInterval(this.rsTimer);
+        clearTimeout(this.grnTimer);
+      },
       stopTimer(e) {
         console.log(e.target);
         clearInterval(this.rsTimer);
-        this.reactionTimes.push(e.target.id === "circle" ? this.count : 0);
+        this.reactionTimes.push(this.count);
         this.averageTime =
           this.reactionTimes.reduce((a, b) => a + b, 0) /
           this.reactionTimes.length;
@@ -67,7 +76,7 @@
           this.grnTimer = null;
           this.over = true;
         } else {
-          this.reset();
+          this.resetTimer();
           this.countdown();
         }
       },
@@ -82,15 +91,31 @@
           }, 10);
         }, green);
       },
-      reset() {
+      resetTimer() {
         if (this.reactionTimes.length === 5) {
           this.reactionTimes = [];
           this.over = false;
+        } else {
+          this.count = 0;
+          clearInterval(this.rsTimer);
+          clearTimeout(this.grnTimer);
+          this.disable = false;
+          this.greenColor = false;
+          this.rsTimer = null;
+          this.grnTimer = null;
         }
+      },
+      reset() {
+        this.reactionTimes = [];
+        this.over = false;
         this.count = 0;
+        clearInterval(this.rsTimer);
+        clearTimeout(this.grnTimer);
         this.disable = false;
         this.greenColor = false;
-        this.radius = Math.floor(Math.random() * 50 + 50);
+        this.rsTimer = null;
+        this.grnTimer = null;
+        this.averageTime = 0;
       },
     },
   };
@@ -118,12 +143,29 @@
     opacity: 0.3;
   }
 
+  .wait-text {
+    opacity: 0.3;
+  }
+
+  .wait-text,
+  .wait-text h3,
+  .wait-text li {
+    font-family: "Josefin Sans", sans-serif;
+  }
+
   #circle {
     height: 100%;
     width: 100%;
     border-radius: 20px;
     background-color: transparent;
     color: black;
+    display: grid;
+    place-items: center;
+  }
+
+  #circle h1 {
+    color: white;
+    font-family: "Josefin Sans", sans-serif;
   }
 
   .green {
