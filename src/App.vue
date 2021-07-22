@@ -32,14 +32,16 @@
                 round
                 id="btn-top"
                 padding="none"
+                color="blue-grey-3"
                 icon="change_history"
-                class="text-yellow light-btn"
+                class="text-yellow"
               />
               <q-btn
                 push
                 round
                 id="btn-left"
                 padding="0"
+                color="blue-grey-3"
                 icon="crop_square"
                 class="text-green light-btn"
               />
@@ -48,6 +50,7 @@
                 round
                 id="btn-right"
                 padding="0"
+                color="blue-grey-3"
                 icon="radio_button_unchecked"
                 class="text-red light-btn"
               />
@@ -56,6 +59,7 @@
                 round
                 id="btn-bottom"
                 padding="0"
+                color="blue-grey-3"
                 icon="close"
                 class="text-blue light-btn"
               />
@@ -74,66 +78,63 @@
             <div id="mode-buttons" class="text-center">
               <q-btn
                 rounded
-                style="color: #474747"
+                style="color: #474747; backgroundColor: #B0BEC5"
                 icon="speed"
                 v-on:click="targetEnable"
-                v-bind:disabled="!open"
                 v-bind:style="targetShow && { color: '#ebebeb' }"
                 class="q-my-sm"
               />
               <q-btn
                 rounded
-                style="color: #474747"
+                style="color: #474747; backgroundColor: #B0BEC5"
                 icon="track_changes"
                 v-on:click="reflexEnable"
-                v-bind:disabled="!open"
                 v-bind:style="reflexShow && { color: '#ebebeb' }"
                 class="q-my-sm"
               />
             </div>
             <div id="start-stop-buttons">
-              <!-- //style="color: #FFEB3B" -->
               <q-btn
                 push
                 round
                 icon="light_mode"
                 class="light-btn"
                 padding="0"
-                style="color: #444444"
+                style="color: #474747; backgroundColor: #B0BEC5"
               />
               <q-btn
                 push
                 round
-                v-bind:disabled="gameBegin"
                 v-bind:style="!gameBegin && { color: '#4CAF50' }"
                 v-on:click="
                   () => {
-                    this.$refs[
-                      `${targetShow ? 'myTarget' : 'myReflex'}`
-                    ].countdown();
+                    !this.gameBegin &&
+                      this.$refs[
+                        `${targetShow ? 'myTarget' : 'myReflex'}`
+                      ].countdown();
                   }
                 "
                 icon="play_arrow"
                 class="start-btn"
                 padding="0"
-                style="color: #474747"
+                style="color: #474747; backgroundColor: #B0BEC5"
               />
               <q-btn
                 push
                 round
-                v-bind:disabled="gameBegin"
                 v-bind:style="!gameBegin && { color: '#F44336' }"
                 v-on:click="
                   () => {
-                    this.$refs[
-                      `${targetShow ? 'myTarget' : 'myReflex'}`
-                    ].reset();
+                    !this.gameBegin &&
+                      this.$refs[
+                        `${targetShow ? 'myTarget' : 'myReflex'}`
+                      ].reset();
                   }
                 "
                 icon="replay"
                 class="stop-btn"
                 padding="0"
-                style="color: #474747"
+                style="color: #474747; backgroundColor: #B0BEC5"
               />
               <q-btn
                 push
@@ -141,7 +142,7 @@
                 icon="power_settings_new"
                 class="power-btn"
                 padding="0"
-                style="color: #474747"
+                style="color: #474747; backgroundColor: #B0BEC5"
                 v-bind:style="open && { color: '#2196F3' }"
                 v-on:click="powerSwitch"
               />
@@ -191,14 +192,18 @@
         this.gameBegin = true;
       },
       targetEnable() {
-        this.targetShow = true;
-        this.reflexShow = false;
-        this.gameBegin = false;
+        if (this.open) {
+          this.targetShow = true;
+          this.reflexShow = false;
+          this.gameBegin = false;
+        }
       },
       reflexEnable() {
-        this.reflexShow = true;
-        this.targetShow = false;
-        this.gameBegin = false;
+        if (this.open) {
+          this.reflexShow = true;
+          this.targetShow = false;
+          this.gameBegin = false;
+        }
       },
       moveAround(e) {
         if (this.move) {
@@ -251,7 +256,7 @@
   }
 
   #L-set {
-    background-color: #272727;
+    background-color: #ffeb3b;
     width: 15%;
     border-radius: 6em 0 0 6em;
     display: grid;
@@ -327,7 +332,7 @@
   }
 
   #L-joystick {
-    background-color: #3a3a3a;
+    background-color: #9fa6b3;
     width: 70%;
     aspect-ratio: 1;
     border-radius: 80px;
@@ -339,11 +344,11 @@
     width: 85%;
     aspect-ratio: 1;
     border-radius: 80px;
-    background-color: #686d76;
+    background-color: #b0bec5;
   }
 
   #R-set {
-    background-color: #272727;
+    background-color: #ffeb3b;
     width: 15%;
     border-radius: 0 6em 6em 0;
     display: grid;

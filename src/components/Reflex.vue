@@ -10,9 +10,15 @@
       </div>
       <div class="timer text-center">
         <h1>{{ timer !== 0 ? timer : "Time Up!" }}</h1>
-        <div v-if="over">
-          <h4 class="q-pa-xs">Targets hit : {{ hits }}</h4>
-          <h4 class="q-pa-xs">Missed Target : {{ miss }}</h4>
+        <div v-if="over" class="reflex-info">
+          <div class="q-pa-xs">Targets hit : {{ hits }}</div>
+          <div class="q-pa-xs">Missed Target : {{ miss }}</div>
+          <div class="q-pa-xs">
+            Accuracy : {{ Math.round((100 * hits) / (hits + miss)) }}%
+          </div>
+          <div class="q-pa-xs">
+            Average Target Click Time : {{ (5 / hits).toFixed(2) }}s
+          </div>
         </div>
         <div v-if="!start">
           <h5>Click on target as fast as possible before the time runs out!</h5>
@@ -122,5 +128,11 @@
     transform: translate(-50%, -50%);
     opacity: 0.3;
     z-index: 9;
+  }
+
+  .reflex-info {
+    display: grid;
+    grid-template-columns: auto;
+    text-align: left;
   }
 </style>
