@@ -1,7 +1,7 @@
 <template>
   <div id="app" @mouseup="resetJoy">
     <div class="wrapper">
-      <h1 class="q-pa-sm text-center">Reaction Test</h1>
+      <h1 class="q-pa-sm text-center" id="hero-heading">Reaction Test</h1>
 
       <div
         id="PS-body"
@@ -35,6 +35,7 @@
                 color="blue-grey-3"
                 icon="change_history"
                 class="text-yellow"
+                v-on:click="() => this.changeColor('yellow')"
               />
               <q-btn
                 push
@@ -43,7 +44,8 @@
                 padding="0"
                 color="blue-grey-3"
                 icon="crop_square"
-                class="text-green light-btn"
+                class="text-green"
+                v-on:click="() => this.changeColor('green')"
               />
               <q-btn
                 push
@@ -52,7 +54,8 @@
                 padding="0"
                 color="blue-grey-3"
                 icon="radio_button_unchecked"
-                class="text-red light-btn"
+                class="text-red"
+                v-on:click="() => this.changeColor('red')"
               />
               <q-btn
                 push
@@ -61,7 +64,8 @@
                 padding="0"
                 color="blue-grey-3"
                 icon="close"
-                class="text-blue light-btn"
+                class="text-blue"
+                v-on:click="() => this.changeColor('blue')"
               />
             </div>
           </div>
@@ -97,10 +101,17 @@
               <q-btn
                 push
                 round
-                icon="light_mode"
+                :icon="this.dark ? `dark_mode` : `light_mode`"
                 class="light-btn"
                 padding="0"
                 style="color: #474747; backgroundColor: #B0BEC5"
+                :style="!dark && { color: '#FFEB3B' }"
+                v-on:click="
+                  () => {
+                    this.changeColor('dark');
+                    this.dark = !this.dark;
+                  }
+                "
               />
               <q-btn
                 push
@@ -182,9 +193,28 @@
         joyPosY: null,
         move: false,
         open: null,
+        dark: false,
       };
     },
     methods: {
+      changeColor(color) {
+        if (color === "red") {
+          document.getElementById("L-set").style.backgroundColor = "#F44336";
+          document.getElementById("R-set").style.backgroundColor = "#F44336";
+        } else if (color === "green") {
+          document.getElementById("L-set").style.backgroundColor = "#4CAF50";
+          document.getElementById("R-set").style.backgroundColor = "#4CAF50";
+        } else if (color === "blue") {
+          document.getElementById("L-set").style.backgroundColor = "#2196F3";
+          document.getElementById("R-set").style.backgroundColor = "#2196F3";
+        } else if (color === "yellow") {
+          document.getElementById("L-set").style.backgroundColor = "#FFEB3B";
+          document.getElementById("R-set").style.backgroundColor = "#FFEB3B";
+        } else {
+          document.getElementById("hero-heading").classList.toggle("dark");
+          document.getElementById("app").classList.toggle("dark");
+        }
+      },
       powerSwitch() {
         this.open === null ? (this.open = true) : (this.open = !this.open);
         this.targetShow = false;
@@ -229,6 +259,11 @@
 </script>
 
 <style scoped>
+  .dark {
+    background-color: black;
+    color: white;
+  }
+
   #app {
     perspective: 1000px;
     height: 100%;
@@ -256,7 +291,7 @@
   }
 
   #L-set {
-    background-color: #ffeb3b;
+    background-color: #272727;
     width: 15%;
     border-radius: 6em 0 0 6em;
     display: grid;
@@ -348,7 +383,7 @@
   }
 
   #R-set {
-    background-color: #ffeb3b;
+    background-color: #272727;
     width: 15%;
     border-radius: 0 6em 6em 0;
     display: grid;
