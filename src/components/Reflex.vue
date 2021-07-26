@@ -37,6 +37,7 @@
         miss: 0,
         start: false,
         over: false,
+        timerInterval: null,
         timer: 5,
       };
     },
@@ -63,15 +64,16 @@
         this.miss = 0;
         this.start = false;
         this.over = false;
+        clearInterval(this.timerInterval);
         document.getElementById("target-div").style.setProperty("top", "2%");
         document.getElementById("target-div").style.setProperty("left", "1%");
       },
       countdown() {
-        const timerInterval = setInterval(() => {
+        this.timerInterval = setInterval(() => {
           this.timer--;
 
-          if (this.timer == 0) {
-            clearInterval(timerInterval);
+          if (this.timer <= 0) {
+            clearInterval(this.timerInterval);
             this.over = true;
           }
         }, 1000);

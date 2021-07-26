@@ -1,7 +1,17 @@
 <template>
-  <div id="app" @mouseup="resetJoy">
+  <div
+    id="app"
+    @mouseup="resetJoy"
+    :style="dark ? { backgroundColor: 'black' } : { backgroundColor: 'white' }"
+  >
     <div class="wrapper">
-      <h1 class="q-pa-sm text-center" id="hero-heading">Reaction Test</h1>
+      <h1
+        class="q-pa-sm text-center"
+        id="hero-heading"
+        :style="dark ? { color: 'white' } : { color: 'black' }"
+      >
+        Reaction Test
+      </h1>
 
       <div
         id="PS-body"
@@ -16,7 +26,14 @@
         }"
       >
         <div class="ps-wrapper row justify-center">
-          <div id="L-set">
+          <div
+            id="L-set"
+            :style="
+              !dark
+                ? { backgroundColor: '#272727' }
+                : { backgroundColor: '#EEEEEE' }
+            "
+          >
             <div id="L-joystick" @mousedown="startMove" @mousemove="moveAround">
               <div
                 id="L-joystick-pad"
@@ -31,10 +48,10 @@
                 push
                 round
                 id="btn-top"
-                padding="none"
-                color="blue-grey-3"
+                padding="0"
                 icon="change_history"
-                class="text-yellow"
+                style="color: #474747; backgroundColor: #B0BEC5"
+                :class="open && 'text-yellow'"
                 v-on:click="() => this.changeColor('yellow')"
               />
               <q-btn
@@ -42,9 +59,9 @@
                 round
                 id="btn-left"
                 padding="0"
-                color="blue-grey-3"
                 icon="crop_square"
-                class="text-green"
+                style="color: #474747; backgroundColor: #B0BEC5"
+                :class="open && 'text-green'"
                 v-on:click="() => this.changeColor('green')"
               />
               <q-btn
@@ -52,9 +69,9 @@
                 round
                 id="btn-right"
                 padding="0"
-                color="blue-grey-3"
                 icon="radio_button_unchecked"
-                class="text-red"
+                style="color: #474747; backgroundColor: #B0BEC5"
+                :class="open && 'text-red'"
                 v-on:click="() => this.changeColor('red')"
               />
               <q-btn
@@ -62,9 +79,9 @@
                 round
                 id="btn-bottom"
                 padding="0"
-                color="blue-grey-3"
                 icon="close"
-                class="text-blue"
+                style="color: #474747; backgroundColor: #B0BEC5"
+                :class="open && 'text-blue'"
                 v-on:click="() => this.changeColor('blue')"
               />
             </div>
@@ -73,29 +90,136 @@
             class="back-screen"
             v-bind:class="[open === null ? '' : open ? 'pspStart' : 'pspClose']"
           >
-            <div class="mid-screen">
+            <div
+              class="select-screen row"
+              v-if="open && !targetShow && !reflexShow"
+            >
+              <div class="col-6 target-div" @click="targetEnable">
+                <div class="text-center">
+                  <q-icon name="timer" style="font-size:5rem" />
+                  <h3>Target</h3>
+                </div>
+              </div>
+              <div class="col-6 reflex-div" @click="reflexEnable">
+                <div class="text-center">
+                  <q-icon name="track_changes" style="font-size:5rem" />
+                  <h3>Reflex</h3>
+                </div>
+              </div>
+            </div>
+
+            <div class="mid-screen" v-if="targetShow || reflexShow">
               <Target v-show="targetShow" ref="myTarget" />
               <Reflex v-show="reflexShow" ref="myReflex" />
             </div>
           </div>
-          <div id="R-set">
-            <div id="mode-buttons" class="text-center">
-              <q-btn
-                rounded
-                style="color: #474747; backgroundColor: #B0BEC5"
-                icon="speed"
-                v-on:click="targetEnable"
-                v-bind:style="targetShow && { color: '#ebebeb' }"
-                class="q-my-sm"
-              />
-              <q-btn
-                rounded
-                style="color: #474747; backgroundColor: #B0BEC5"
-                icon="track_changes"
-                v-on:click="reflexEnable"
-                v-bind:style="reflexShow && { color: '#ebebeb' }"
-                class="q-my-sm"
-              />
+          <div
+            id="R-set"
+            :style="
+              !dark
+                ? { backgroundColor: '#272727' }
+                : { backgroundColor: '#EEEEEE' }
+            "
+          >
+            <div id="arrow-buttons">
+              <q-btn flat class="top-arrow" padding="0" style="height:0">
+                <svg
+                  viewBox="0 0 30 30"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect
+                    width="24.7059"
+                    height="23.0611"
+                    rx="5"
+                    transform="matrix(1 0 0 -1 2.64706 23.0611)"
+                    fill="#B0BEC5"
+                  />
+                  <path
+                    d="M14.3839 29.5181C14.7458 29.8012 15.2542 29.8012 15.6161 29.5181L25.705 21.6264C26.4539 21.0406 26.0397 19.8387 25.0889 19.8387H4.9111C3.96034 19.8387 3.54611 21.0406 4.29499 21.6264L14.3839 29.5181Z"
+                    fill="#B0BEC5"
+                  />
+                  <path
+                    d="M14.2223 7.96217C14.6225 7.467 15.3775 7.467 15.7777 7.96217L19.7458 12.8714C20.2744 13.5253 19.8089 14.5 18.9681 14.5H11.0319C10.1911 14.5 9.72565 13.5253 10.2542 12.8714L14.2223 7.96217Z"
+                    fill="#474747"
+                  />
+                </svg>
+              </q-btn>
+
+              <q-btn flat class="left-arrow" padding="0" style="height:0">
+                <svg
+                  viewBox="0 0 30 30"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect
+                    width="24.7059"
+                    height="23.0611"
+                    rx="5"
+                    transform="matrix(0 -1 -1 0 23.0611 27.3529)"
+                    fill="#B0BEC5"
+                  />
+                  <path
+                    d="M29.5181 15.6161C29.8012 15.2542 29.8012 14.7458 29.5181 14.3839L21.6264 4.29499C21.0406 3.54611 19.8387 3.96034 19.8387 4.91111V25.0889C19.8387 26.0397 21.0406 26.4539 21.6264 25.705L29.5181 15.6161Z"
+                    fill="#B0BEC5"
+                  />
+                  <path
+                    d="M7.96217 15.7777C7.467 15.3775 7.467 14.6225 7.96217 14.2223L12.8714 10.2542C13.5253 9.72565 14.5 10.1911 14.5 11.0319V18.9681C14.5 19.8089 13.5253 20.2744 12.8714 19.7458L7.96217 15.7777Z"
+                    fill="#474747"
+                  />
+                </svg>
+              </q-btn>
+
+              <q-btn flat class="right-arrow" padding="0" style="height:0">
+                <svg
+                  viewBox="0 0 30 30"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect
+                    x="6.9389"
+                    y="27.3529"
+                    width="24.7059"
+                    height="23.0611"
+                    rx="5"
+                    transform="rotate(-90 6.9389 27.3529)"
+                    fill="#B0BEC5"
+                  />
+                  <path
+                    d="M0.481936 15.6161C0.19881 15.2542 0.19881 14.7458 0.481937 14.3839L8.37364 4.29499C8.95942 3.54611 10.1613 3.96034 10.1613 4.91111L10.1613 25.0889C10.1613 26.0397 8.95942 26.4539 8.37364 25.705L0.481936 15.6161Z"
+                    fill="#B0BEC5"
+                  />
+                  <path
+                    d="M22.0378 15.7777C22.533 15.3775 22.533 14.6225 22.0378 14.2223L17.1286 10.2542C16.4747 9.72565 15.5 10.1911 15.5 11.0319V18.9681C15.5 19.8089 16.4747 20.2744 17.1286 19.7458L22.0378 15.7777Z"
+                    fill="#474747"
+                  />
+                </svg>
+              </q-btn>
+
+              <q-btn flat class="down-arrow" padding="0" style="height:0">
+                <svg
+                  viewBox="0 0 30 30"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect
+                    x="2.64706"
+                    y="6.9389"
+                    width="24.7059"
+                    height="23.0611"
+                    rx="5"
+                    fill="#B0BEC5"
+                  />
+                  <path
+                    d="M14.3839 0.481933C14.7458 0.198806 15.2542 0.198806 15.6161 0.481933L25.705 8.37363C26.4539 8.95942 26.0397 10.1613 25.0889 10.1613H4.9111C3.96034 10.1613 3.54611 8.95942 4.29499 8.37363L14.3839 0.481933Z"
+                    fill="#B0BEC5"
+                  />
+                  <path
+                    d="M14.2223 22.0378C14.6225 22.533 15.3775 22.533 15.7777 22.0378L19.7458 17.1286C20.2744 16.4747 19.8089 15.5 18.9681 15.5H11.0319C10.1911 15.5 9.72565 16.4747 10.2542 17.1286L14.2223 22.0378Z"
+                    fill="#474747"
+                  />
+                </svg>
+              </q-btn>
             </div>
             <div id="start-stop-buttons">
               <q-btn
@@ -105,18 +229,13 @@
                 class="light-btn"
                 padding="0"
                 style="color: #474747; backgroundColor: #B0BEC5"
-                :style="!dark && { color: '#FFEB3B' }"
-                v-on:click="
-                  () => {
-                    this.changeColor('dark');
-                    this.dark = !this.dark;
-                  }
-                "
+                v-on:click="() => open && (this.dark = !this.dark)"
+                :style="open && { color: '#ffffff' }"
               />
               <q-btn
                 push
                 round
-                v-bind:style="!gameBegin && { color: '#4CAF50' }"
+                v-bind:style="!gameBegin && { color: '#ffffff' }"
                 v-on:click="
                   () => {
                     !this.gameBegin &&
@@ -133,9 +252,11 @@
               <q-btn
                 push
                 round
-                v-bind:style="!gameBegin && { color: '#F44336' }"
+                v-bind:style="!gameBegin && { color: '#ffffff' }"
                 v-on:click="
                   () => {
+                    this.reflexShow = false;
+                    this.targetShow = false;
                     !this.gameBegin &&
                       this.$refs[
                         `${targetShow ? 'myTarget' : 'myReflex'}`
@@ -154,7 +275,7 @@
                 class="power-btn"
                 padding="0"
                 style="color: #474747; backgroundColor: #B0BEC5"
-                v-bind:style="open && { color: '#2196F3' }"
+                v-bind:style="open && { color: '#ffffff' }"
                 v-on:click="powerSwitch"
               />
             </div>
@@ -198,21 +319,20 @@
     },
     methods: {
       changeColor(color) {
-        if (color === "red") {
+        if (color === "red" && this.open) {
           document.getElementById("L-set").style.backgroundColor = "#F44336";
           document.getElementById("R-set").style.backgroundColor = "#F44336";
-        } else if (color === "green") {
+        } else if (color === "green" && this.open) {
           document.getElementById("L-set").style.backgroundColor = "#4CAF50";
           document.getElementById("R-set").style.backgroundColor = "#4CAF50";
-        } else if (color === "blue") {
+        } else if (color === "blue" && this.open) {
           document.getElementById("L-set").style.backgroundColor = "#2196F3";
           document.getElementById("R-set").style.backgroundColor = "#2196F3";
-        } else if (color === "yellow") {
+        } else if (color === "yellow" && this.open) {
           document.getElementById("L-set").style.backgroundColor = "#FFEB3B";
           document.getElementById("R-set").style.backgroundColor = "#FFEB3B";
         } else {
-          document.getElementById("hero-heading").classList.toggle("dark");
-          document.getElementById("app").classList.toggle("dark");
+          null;
         }
       },
       powerSwitch() {
@@ -259,11 +379,6 @@
 </script>
 
 <style scoped>
-  .dark {
-    background-color: black;
-    color: white;
-  }
-
   #app {
     perspective: 1000px;
     height: 100%;
@@ -355,15 +470,36 @@
     grid-area: top;
   }
 
-  #mode-buttons {
+  #arrow-buttons {
     width: 70%;
+    aspect-ratio: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
   }
 
-  #mode-buttons button {
-    width: 95%;
-    aspect-ratio: 2;
-    padding: 0;
-    font-size: 1.3em;
+  .top-arrow {
+    grid-column: 2/3;
+    margin-top: 10px;
+  }
+
+  .left-arrow {
+    grid-row: 2;
+    margin-left: 10px;
+    margin-right: -10px;
+  }
+
+  .right-arrow {
+    grid-row: 2;
+    grid-column: 3/3;
+    margin-left: -10px;
+    margin-right: 10px;
+  }
+
+  .down-arrow {
+    grid-row: 3;
+    grid-column: 2/3;
+    margin-top: -10px;
   }
 
   #L-joystick {
@@ -380,6 +516,7 @@
     aspect-ratio: 1;
     border-radius: 80px;
     background-color: #b0bec5;
+    box-shadow: 0 0 4px black;
   }
 
   #R-set {
@@ -388,6 +525,13 @@
     border-radius: 0 6em 6em 0;
     display: grid;
     place-items: center;
+  }
+
+  .select-screen {
+    background-color: #fafaf6;
+    width: 98%;
+    height: 95%;
+    border-radius: 20px;
   }
 
   .back-screen {
@@ -405,6 +549,35 @@
 
   .pspClose {
     animation: revanim 0.5s ease-in-out forwards;
+  }
+
+  .target-div,
+  .reflex-div {
+    display: grid;
+    place-items: center;
+    transform: scale(0);
+    opacity: 0.5;
+    border-radius: 20px;
+    animation-name: popout;
+    animation-timing-function: ease-in-out;
+    animation-delay: 0.5s;
+    animation-fill-mode: forwards;
+    animation-duration: 0.5s;
+  }
+
+  .target-div:hover,
+  .reflex-div:hover {
+    cursor: pointer;
+    opacity: 1;
+  }
+
+  @keyframes popout {
+    from {
+      transform: scale(0);
+    }
+    to {
+      transform: scale(1);
+    }
   }
 
   .mid-screen {

@@ -62,8 +62,7 @@
         clearInterval(this.rsTimer);
         clearTimeout(this.grnTimer);
       },
-      stopTimer(e) {
-        console.log(e.target);
+      stopTimer() {
         clearInterval(this.rsTimer);
         this.reactionTimes.push(this.count);
         this.averageTime =
@@ -81,7 +80,6 @@
         }
       },
       countdown() {
-        console.log(this.reactionTimes.length);
         this.disable = true;
         let green = Math.floor(Math.random() * 3500 + 500);
         this.grnTimer = setTimeout(() => {
