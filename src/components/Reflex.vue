@@ -1,140 +1,180 @@
 <template>
-  <div class="row justify-center box">
-    <div class="col-12" id="target-area" v-on:click="targetClick">
-      <div id="target-div" v-if="!over">
-        <img
-          src="../../public/bullseye.png"
-          style="height:80px;width:80px"
-          id="target"
-        />
-      </div>
-      <div class="timer text-center">
-        <h1>{{ timer !== 0 ? timer : "Time Up!" }}</h1>
-        <div v-if="over" class="reflex-info">
-          <div class="q-pa-xs">Targets hit : {{ hits }}</div>
-          <div class="q-pa-xs">Missed Target : {{ miss }}</div>
-          <div class="q-pa-xs">
-            Accuracy : {{ Math.round((100 * hits) / (hits + miss)) }}%
-          </div>
-          <div class="q-pa-xs">
-            Average Target Click Time : {{ (5 / hits).toFixed(2) }}s
-          </div>
-        </div>
-        <div v-if="!start">
-          <h5>Click on target as fast as possible before the time runs out!</h5>
-        </div>
-      </div>
+  <div class="gameplay-bg">
+    <div v-if="!gameBegin">
+      <h5 class="text-center info-text">
+        Wait for the green color and click as fast as possible in a set of 5
+      </h5>
+    </div>
+
+    <div
+      class="gamestart-screen"
+      :style="gameBegin && { backgroundColor: 'rgb(248, 61, 61)' }"
+      @click="wrongClick"
+      v-else-if="gameBegin && !grnTriggerDisplay"
+    >
+      <h1>
+        Wait...
+      </h1>
+    </div>
+
+    <div
+      id="greenBox"
+      :style="grnTriggerDisplay && { backgroundColor: 'rgb(144, 238, 144)' }"
+      @click="stopTimer"
+      v-else-if="!gameOver"
+    >
+      <h1>{{ reactionTime }}</h1>
+    </div>
+
+    <div class="text-center wait-text" v-else>
+      <h2>GAME OVER</h2>
+      <h3 class="col-7 text-center">
+        Average Time : {{ reactionTimes.length === 5 ? averageTime : "--" }} ms
+        <ul>
+          <li v-for="(time, id) in reactionTimes" :key="id">
+            {{ id + 1 }}. {{ time }} ms
+          </li>
+        </ul>
+      </h3>
     </div>
   </div>
 </template>
 
 <script>
   export default {
-    name: "Reflex",
+    name: "Target",
     data() {
       return {
-        hits: 0,
-        miss: 0,
-        start: false,
-        over: false,
-        timerInterval: null,
-        timer: 5,
+        reactionTime: 0,
+        reactionTimeTimer: null,
+        gameBegin: false,
+        grnDelayTimer: null,
+        grnTriggerDisplay: false,
+        gameOver: false,
+        reactionTimes: [],
+        averageTime: 0,
       };
     },
     methods: {
-      targetClick(e) {
-        let idClicked = e.target.id;
-        if (this.start && !this.over && idClicked === "target") {
-          let xPos = Math.floor(Math.random() * 92);
-          let yPos = Math.floor(Math.random() * 80);
-          document
-            .getElementById("target-div")
-            .style.setProperty("top", yPos + "%");
-          document
-            .getElementById("target-div")
-            .style.setProperty("left", xPos + "%");
-          this.hits++;
-        } else if (this.start && !this.over && idClicked === "target-area") {
-          this.miss++;
+      wrongClick() {
+        this.gameBegin = true;
+        this.grnTriggerDisplay = true;
+        this.gameOver = true;
+        clearInterval(this.reactionTimeTimer);
+        clearTimeout(this.grnDelayTimer);
+      },
+      stopTimer() {
+        clearInterval(this.reactionTimeTimer);
+        this.reactionTimes.push(this.reactionTime);
+        this.averageTime =
+          this.reactionTimes.reduce((a, b) => a + b, 0) /
+          this.reactionTimes.length;
+
+        if (this.reactionTimes.length === 5) {
+          this.gameBegin = true;
+          this.reactionTimeTimer = null;
+          this.grnDelayTimer = null;
+          this.gameOver = true;
+        } else {
+          this.resetTimer();
+          this.reactionTimer();
+        }
+      },
+      reactionTimer() {
+        this.gameBegin = true;
+        let green = Math.floor(Math.random() * 3500 + 500);
+        this.grnDelayTimer = setTimeout(() => {
+          this.grnTriggerDisplay = true;
+          this.reactionTimeTimer = setInterval(() => {
+            this.reactionTime = this.reactionTime + 10;
+          }, 10);
+        }, green);
+      },
+      resetTimer() {
+        if (this.reactionTimes.length === 5) {
+          this.reactionTimes = [];
+          this.gameOver = false;
+        } else {
+          this.reactionTime = 0;
+          clearInterval(this.reactionTimeTimer);
+          clearTimeout(this.grnDelayTimer);
+          this.gameBegin = false;
+          this.grnTriggerDisplay = false;
+          this.reactionTimeTimer = null;
+          this.grnDelayTimer = null;
         }
       },
       reset() {
-        this.timer = 5;
-        this.hits = 0;
-        this.miss = 0;
-        this.start = false;
-        this.over = false;
-        clearInterval(this.timerInterval);
-        document.getElementById("target-div").style.setProperty("top", "2%");
-        document.getElementById("target-div").style.setProperty("left", "1%");
-      },
-      countdown() {
-        this.timerInterval = setInterval(() => {
-          this.timer--;
-
-          if (this.timer <= 0) {
-            clearInterval(this.timerInterval);
-            this.over = true;
-          }
-        }, 1000);
-        this.start = true;
+        this.reactionTimes = [];
+        this.gameOver = false;
+        this.reactionTime = 0;
+        clearInterval(this.reactionTimeTimer);
+        clearTimeout(this.grnDelayTimer);
+        this.gameBegin = false;
+        this.grnTriggerDisplay = false;
+        this.reactionTimeTimer = null;
+        this.grnDelayTimer = null;
+        this.averageTime = 0;
       },
     },
   };
 </script>
 
-<style scoped>
-  .box {
+<style lang="scss" scoped>
+  .gameplay-bg {
     width: 100%;
     height: 100%;
-  }
-
-  /* h5 {
-    line-height: 4vh;
-  } */
-
-  #target-area {
-    position: relative;
-    height: 100%;
-    border-radius: 20px;
-  }
-
-  #target-div {
-    height: 80px;
-    width: 80px;
-    border-radius: 40px;
-    position: absolute;
-    top: 2%;
-    left: 1%;
-    z-index: 10;
-    transition: 0.1s;
-  }
-
-  #target-div:hover {
-    box-shadow: 0px 0px 10px black;
-  }
-
-  #game-over {
-    font-size: 4em;
-  }
-
-  .button-div {
-    height: 10vh !important;
-  }
-
-  .timer {
-    font-family: "Josefin Sans", sans-serif;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0.3;
-    z-index: 9;
-  }
-
-  .reflex-info {
     display: grid;
-    grid-template-columns: auto;
-    text-align: left;
+    place-items: center;
+  }
+
+  .gamestart-screen {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    place-items: center;
+    border-radius: 20px;
+    color: white;
+  }
+
+  .info-text {
+    font-family: "Josefin Sans", sans-serif;
+    opacity: 0.3;
+  }
+
+  .wait-text {
+    opacity: 0.3;
+    font-family: "Josefin Sans", sans-serif;
+
+    ul {
+      list-style-type: none;
+      font-family: "Josefin Sans", sans-serif;
+
+      li {
+        line-height: 1.5em;
+      }
+    }
+
+    h3 {
+      font-family: "Roboto", sans-serif;
+      font-family: "Josefin Sans", sans-serif;
+      padding: 0.2em;
+      font-size: 1.5em;
+    }
+  }
+
+  #greenBox {
+    height: 100%;
+    width: 100%;
+    border-radius: 20px;
+    background-color: transparent;
+    color: black;
+    display: grid;
+    place-items: center;
+
+    h1 {
+      color: white;
+      font-family: "Josefin Sans", sans-serif;
+    }
   }
 </style>
