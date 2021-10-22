@@ -1,6 +1,9 @@
 <template>
   <div class="gameplay-bg">
     <div v-if="!gameBegin">
+      <h2 class="info-text text-center">
+        Reaction Time
+      </h2>
       <h5 class="text-center info-text">
         Wait for the green color and click as fast as possible in a set of 5
       </h5>
