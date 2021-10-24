@@ -1,16 +1,29 @@
 <template>
-  <div class="gameplay-bg">
-    <div v-if="!gameBegin">
-      <h2 class="info-text text-center">
-        Reaction Time
-      </h2>
-      <h5 class="text-center info-text">
-        Wait for the green color and click as fast as possible in a set of 5
-      </h5>
+  <div class="gameplay-bg column justify-center">
+    <div
+      v-if="!gameBegin"
+      class="gamestart-screen info-text column justify-evenly items-center"
+    >
+      <div class="text-center">
+        <h2>
+          Reaction Time
+        </h2>
+        <h5>
+          Wait for the green color and click as fast as possible
+        </h5>
+      </div>
+
+      <div>
+        <h5>Rules:</h5>
+        <ul>
+          <li>Clicking on red would end the game directly.</li>
+          <li>Average of 5 attempts would give the average reaction time.</li>
+        </ul>
+      </div>
     </div>
 
     <div
-      class="gamestart-screen"
+      class="gamestart-screen column items-center justify-center text-white"
       :style="gameBegin && { backgroundColor: 'rgb(248, 61, 61)' }"
       @click="wrongClick"
       v-else-if="gameBegin && !grnTriggerDisplay"
@@ -22,6 +35,7 @@
 
     <div
       id="greenBox"
+      class="gamestart-screen column items-center justify-center text-white"
       :style="grnTriggerDisplay && { backgroundColor: 'rgb(144, 238, 144)' }"
       @click="stopTimer"
       v-else-if="!gameOver"
@@ -127,17 +141,26 @@
   .gameplay-bg {
     width: 100%;
     height: 100%;
-    display: grid;
-    place-items: center;
+    animation: popout ease-in-out 0.7s forwards;
+  }
+
+  @keyframes popout {
+    from {
+      transform: scale(0);
+    }
+    to {
+      transform: scale(1);
+    }
   }
 
   .gamestart-screen {
     height: 100%;
     width: 100%;
-    display: grid;
-    place-items: center;
     border-radius: 20px;
-    color: white;
+
+    h1 {
+      user-select: none;
+    }
   }
 
   .info-text {
@@ -163,21 +186,6 @@
       font-family: "Josefin Sans", sans-serif;
       padding: 0.2em;
       font-size: 1.5em;
-    }
-  }
-
-  #greenBox {
-    height: 100%;
-    width: 100%;
-    border-radius: 20px;
-    background-color: transparent;
-    color: black;
-    display: grid;
-    place-items: center;
-
-    h1 {
-      color: white;
-      font-family: "Josefin Sans", sans-serif;
     }
   }
 </style>

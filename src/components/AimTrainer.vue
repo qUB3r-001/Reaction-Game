@@ -1,14 +1,8 @@
 <template>
   <div class="gameplay-bg justify-center">
     <div id="clickable-area" @click="targetClick">
-      <div id="target-div" v-if="!over">
-        <!-- <img
-          v-if="start"
-          src="../../public/bullseye.png"
-          style="height:80px;width:80px"
-          id="target"
-        /> -->
-        <div id="target">
+      <div id="target-div" v-if="!over && start">
+        <div id="target" v-if="start">
           <div id="target-inner-1">
             <div id="target-inner-2">
               <div id="target-inner-3"></div>
@@ -17,23 +11,47 @@
         </div>
       </div>
 
-      <div class="gameplay-screen text-center">
-        <h1>
-          {{
-            !start
-              ? "Aim Trainer"
-              : startTimerValue == 0
-              ? "Time Up!"
-              : startTimerValue
-          }}
-        </h1>
+      <div class="gameplay-screen column justify-center">
+        <div
+          class="column justify-evenly items-center"
+          v-if="!start && !over"
+          style="height: 100%; width: 100%"
+        >
+          <div class="info-text text-center">
+            <h2>Aim Trainer</h2>
+            <h5>
+              Click on target as fast as possible before the time runs out!
+            </h5>
+          </div>
+          <div class="info-text">
+            <h5>Rules:</h5>
+            <ul>
+              <li>Innermost ring is of 10 points</li>
+              <li>2nd - Innermost ring is of 5 points</li>
+              <li>3rd - Innermost ring is of 2 points</li>
+              <li>Outermost ring is of 1 points</li>
+            </ul>
+          </div>
+        </div>
 
-        <div v-if="over" class="results">
-          <h5>Targets hit : {{ hits }}</h5>
-          <h5>Targets Inner-1 hit : {{ hitsInner1 }}</h5>
-          <h5>Targets Inner-2 hit : {{ hitsInner2 }}</h5>
-          <h5>Targets Inner-3 hit : {{ hitsInner3 }}</h5>
+        <div class="info-text text-center" v-else-if="start && !over">
+          <h2>
+            {{ startTimerValue }}
+          </h2>
+        </div>
+
+        <div v-else class="info-text column justify-around items-center">
+          <h2 class="q-pa-md">Time Up!</h2>
+          <h5>
+            Total Points :
+            {{ hits + hitsInner1 * 2 + hitsInner2 * 5 + hitsInner3 * 10 }}
+          </h5>
+          <h5>
+            Targets hit : {{ hits + hitsInner1 + hitsInner2 + hitsInner3 }}
+          </h5>
+
           <h5>Missed Target : {{ miss }}</h5>
+
           <h5>
             Accuracy :
             {{
@@ -46,14 +64,8 @@
           <h5>
             Average Target Click Time :
             {{
-              (3 / (hits + hitsInner1 + hitsInner2 + hitsInner3)).toFixed(2)
+              (30 / (hits + hitsInner1 + hitsInner2 + hitsInner3)).toFixed(2)
             }}s
-          </h5>
-        </div>
-
-        <div v-if="!start">
-          <h5 class="text-center info-text">
-            Click on target as fast as possible before the time runs out!
           </h5>
         </div>
       </div>
@@ -105,22 +117,19 @@
         }
       },
       reset() {
-        this.startTimerValue = 5;
+        this.startTimerValue = 3;
         this.hits = 0;
         this.hitsInner1 = 0;
         this.miss = 0;
         this.start = false;
         this.over = false;
         clearInterval(this.countdownTimer);
-        document.getElementById("target-div").style.setProperty("top", "2%");
-        document.getElementById("target-div").style.setProperty("left", "1%");
       },
       reactionTimer() {
         this.countdownTimer = setInterval(() => {
           this.startTimerValue--;
 
           if (this.startTimerValue <= 0) {
-            clearInterval(this.countdownTimer);
             this.over = true;
           }
         }, 1000);
@@ -134,11 +143,25 @@
   .gameplay-bg {
     width: 100%;
     height: 100%;
+    animation: popout ease-in-out 0.7s forwards;
+  }
+
+  @keyframes popout {
+    from {
+      transform: scale(0);
+    }
+    to {
+      transform: scale(1);
+    }
   }
 
   .info-text {
     font-family: "Josefin Sans", sans-serif;
     opacity: 0.3;
+
+    h2 {
+      user-select: none;
+    }
   }
 
   #clickable-area {
@@ -156,10 +179,6 @@
     left: 1%;
     z-index: 10;
     transition: 0.1s;
-
-    &:hover {
-      // box-shadow: 0px 0px 7px black;
-    }
   }
 
   #target {
@@ -197,27 +216,13 @@
   }
 
   .gameplay-screen {
+    height: 100%;
+    width: 100%;
     font-family: "Josefin Sans", sans-serif;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80%;
+    position: relative;
     z-index: 9;
 
     h1 {
-      opacity: 0.3;
-    }
-  }
-
-  .results {
-    display: grid;
-    grid-template-columns: auto;
-    text-align: left;
-
-    h5 {
-      padding: 5px 0;
-      text-align: center;
       opacity: 0.3;
     }
   }
