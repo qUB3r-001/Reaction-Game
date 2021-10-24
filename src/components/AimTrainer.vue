@@ -86,7 +86,7 @@
         start: false,
         over: false,
         countdownTimer: null,
-        startTimerValue: 3,
+        startTimerValue: 30,
       };
     },
     methods: {
@@ -117,7 +117,7 @@
         }
       },
       reset() {
-        this.startTimerValue = 3;
+        this.startTimerValue = 30;
         this.hits = 0;
         this.hitsInner1 = 0;
         this.miss = 0;
