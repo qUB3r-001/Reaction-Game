@@ -35,16 +35,19 @@
             class="back-screen"
             :class="[open === null ? '' : open ? 'pspStart' : 'pspClose']"
           >
-            <!-- rotateX(' +
-                  -joyPosY / 10 +
-                  'deg) rotateY(' +
-                  joyPosX / 10 +
-                  'deg)  -->
             <div
               class="select-screen row"
               :style="{
                 transform:
-                  'translate(' + joyPosX / 3 + 'px,' + joyPosY / 4 + 'px)',
+                  'rotateX(' +
+                  -joyPosY / 10 +
+                  'deg) rotateY(' +
+                  joyPosX / 10 +
+                  'deg) translate(' +
+                  joyPosX / 3 +
+                  'px,' +
+                  joyPosY / 4 +
+                  'px)',
               }"
               v-if="open && !reflexMode && !aimTrainerMode"
             >
@@ -75,7 +78,22 @@
               </div>
             </div>
 
-            <div class="mid-screen" v-if="reflexMode || aimTrainerMode">
+            <div
+              class="mid-screen"
+              :style="{
+                transform:
+                  'rotateX(' +
+                  -joyPosY / 10 +
+                  'deg) rotateY(' +
+                  joyPosX / 10 +
+                  'deg) translate(' +
+                  joyPosX / 3 +
+                  'px,' +
+                  joyPosY / 4 +
+                  'px)',
+              }"
+              v-if="reflexMode || aimTrainerMode"
+            >
               <Reflex v-show="reflexMode" ref="reflexMode" />
               <AimTrainer v-show="aimTrainerMode" ref="aimTrainerMode" />
             </div>
@@ -142,12 +160,19 @@
         </div>
       </div>
 
-      <div class="text-center q-pa-md footer-text">
-        "The fastest possible conscious human reactions are around 0.15 s, but
-        most are around 0.2 s. Unconscious, or reflex, actions are much faster,
-        around 0.08 s because the signal doesn't have to go via the brain."
-        <br />
-        Made By - qUB3r
+      <div class="col-lg-3 footer-text q-mx-auto">
+        <div class="text-center q-py-xs">
+          Made By - qUB3r
+        </div>
+        <hr />
+        <div class="flex justify-center q-py-xs">
+          <a href="https://github.com/qUB3r-001"
+            ><i class="fab fa-github"></i
+          ></a>
+          <a href="mailto: sid25porwal@gmail.com"
+            ><i class="fas fa-envelope"></i
+          ></a>
+        </div>
       </div>
     </div>
   </div>
@@ -357,6 +382,7 @@
 
   .ps-wrapper {
     width: 100%;
+    transform-style: preserve-3d;
   }
 
   #L-set {
@@ -424,6 +450,15 @@
     place-items: center;
   }
 
+  .back-screen {
+    background-color: #838383;
+    width: 0;
+    aspect-ratio: 2;
+    transform-origin: center;
+    position: relative;
+    perspective: 800px;
+  }
+
   .select-screen {
     background-color: #fafaf6;
     width: 98%;
@@ -432,17 +467,9 @@
     position: absolute;
     inset: 0;
     margin: auto;
-  }
-
-  .back-screen {
-    background-color: #838383;
-    width: 0;
-    aspect-ratio: 2;
-    // display: grid;
-    // place-items: center;
-    transform-origin: center;
-    perspective: 1000px;
-    position: relative;
+    box-shadow: -5px 0 5px #f44336, 5px 0 5px #ffeb3b, 0 5px 5px #2196f3,
+      0 -5px 5px #4caf50;
+    perspective: 800px;
   }
 
   .pspStart {
@@ -464,6 +491,7 @@
   .info-text {
     font-family: "Josefin Sans", sans-serif;
     opacity: 0.3;
+    perspective: 800px;
   }
 
   @keyframes popout {
@@ -483,6 +511,8 @@
     position: absolute;
     inset: 0;
     margin: auto;
+    box-shadow: -5px 0 5px #f44336, 5px 0 5px #ffeb3b, 0 5px 5px #2196f3,
+      0 -5px 5px #4caf50;
   }
 
   @keyframes anim {
@@ -504,7 +534,22 @@
   }
 
   .footer-text {
-    font-size: 13px;
+    font-size: 15px;
+    font-family: "Josefin Sans", sans-serif;
     color: #b3b3b3;
+    width: 200px;
+
+    .fa-github,
+    .fa-envelope {
+      color: #b3b3b3;
+      font-size: 20px;
+      transition: 0.5s;
+      margin: 0 10px;
+
+      &:hover {
+        color: #212529;
+        transform: scale(1.5);
+      }
+    }
   }
 </style>
